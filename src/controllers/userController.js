@@ -1,8 +1,8 @@
-import { signupHelper } from "../helpers/userHelper.js";
+import { loginHelper, signupHelper } from "../helpers/userHelper.js";
 import jwt from 'jsonwebtoken'
 
 
-  
+  //SIGNUP
   export const signup = async (req,res) => {
     try{
     let newUser = req.body;
@@ -20,6 +20,24 @@ import jwt from 'jsonwebtoken'
     res.status(500).json({ error: 'Internal Server Error' })
      }
    }
-  
-//hiii
 
+//LOGIN
+  export const login = async (req,res) => {
+    try{
+      let userData = req.body
+      let user = await loginHelper(userData)
+    }catch(error) {
+      console.log('error during login controller : ', error);
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
+//hi

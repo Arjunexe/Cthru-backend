@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGO_DB, {
       });
 
  
-      //RouterS
+      //RouterSs
 app.use('/user',userRouter)
 
 
