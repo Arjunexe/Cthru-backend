@@ -17,7 +17,7 @@ export const signup = async (req, res) => {
       userName: userData.Username,
     };
     const token = jwt.sign(payload, process.env.SECRETKEY, { expiresIn: "1h" });
-    // console.log("token is:", userId);
+
     res.status(200).json({ token });
   } catch (error) {
     console.error("Error during signup:", error);
@@ -59,7 +59,6 @@ export const getUser = async (req, res) => {
   }
 };
 
-
 // Save IMAGE URL
 export const imgUrl = async (req, res) => {
   try {
@@ -75,7 +74,6 @@ export const imgUrl = async (req, res) => {
 //GET IMAGE URL
 export const getImgUrl = async (req, res) => {
   try {
-    
     const imgURL = await getImgURL();
     res.json(imgURL);
   } catch (error) {

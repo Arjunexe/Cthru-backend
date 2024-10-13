@@ -50,7 +50,7 @@ export const loginHelper = async (userData) => {
 //getUser
 export const getUserHelper = async (userId) => {
   try {
-    let userData = await userModel.findOne({ _id: userId });
+    let userData = await userModel.findOne({ _id: userId },{Password:0});
     // console.log("this is the user data : ", userData);
     if (!userData) {
       console.log("user data doesn't exist");
