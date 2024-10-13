@@ -1,4 +1,10 @@
-import { loginHelper, signupHelper } from "../helpers/userHelper.js";
+import {
+  getUserHelper,
+  loginHelper,
+  signupHelper,
+  saveImgUrlHelper,
+  getImgURL,
+} from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
 //SIGNUP
@@ -11,8 +17,8 @@ export const signup = async (req, res) => {
       userName: userData.Username,
     };
     const token = jwt.sign(payload, process.env.SECRETKEY, { expiresIn: "1h" });
-    // console.log("token is:", token);
-    res.status(200).json({token});
+    // console.log("token is:", userId);
+    res.status(200).json({ token });
   } catch (error) {
     console.error("Error during signup:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -24,8 +30,55 @@ export const login = async (req, res) => {
   try {
     let userData = req.body;
     let user = await loginHelper(userData);
+    if (!user) {
+      console.log("trouble logginIn");
+    } else {
+      const payload = {
+        userId: user._id,
+        userName: user.Username,
+      };
+      const token = jwt.sign(payload, process.env.SECRETKEY, {
+        expiresIn: "10h",
+      });
 
+      res.status(200).json({ token });
+    }
   } catch (error) {
     console.log("error during login controller : ", error);
+  }
+};
+
+//GET USER
+export const getUser = async (req, res) => {
+  try {
+    let userId = req.params.userId;
+    let userData = await getUserHelper(userId);
+    res.status(200).json({ userData });
+  } catch (error) {
+    console.log("error during getUser controller : ", error);
+  }
+};
+
+
+// Save IMAGE URL
+export const imgUrl = async (req, res) => {
+  try {
+    const { imgUrl, userId } = req.body;
+    let savedImgUrl = await saveImgUrlHelper(imgUrl, userId);
+    // console.log("url finally came :", imgUrl);
+    res.status(200).json({ savedImgUrl });
+  } catch (error) {
+    console.log("error during imgUrl controller: ", error);
+  }
+};
+
+//GET IMAGE URL
+export const getImgUrl = async (req, res) => {
+  try {
+    
+    const imgURL = await getImgURL();
+    res.json(imgURL);
+  } catch (error) {
+    console.log("error during getImgUrl :", error);
   }
 };

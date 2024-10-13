@@ -6,6 +6,7 @@ import logger from "morgan";
 import cors from "cors";
 
 import userRouter from "./src/routes/userRoutes.js";
+import cloudinaryConfig from "./src/services/cloudinary.js";
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -29,6 +30,9 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
+
+  // Cloudinary configuration
+  cloudinaryConfig()
 
 //RouterSs
 app.use("/user", userRouter);

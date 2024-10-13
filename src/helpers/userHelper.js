@@ -1,4 +1,5 @@
 import userModel from "../models/user.js";
+import postModel from "../models/postModel.js";
 import bcrypt from "bcrypt";
 
 //SIGNUP HELPER
@@ -39,8 +40,52 @@ export const loginHelper = async (userData) => {
       return false;
     } else {
       console.log("user exist");
+      return user;
     }
   } catch (error) {
     console.log("error during loginHelper:", error);
+  }
+};
+
+//getUser
+export const getUserHelper = async (userId) => {
+  try {
+    let userData = await userModel.findOne({ _id: userId });
+    // console.log("this is the user data : ", userData);
+    if (!userData) {
+      console.log("user data doesn't exist");
+      return false;
+    }
+    return userData;
+  } catch (error) {
+    console.log("error during getUserHelper :", error);
+  }
+};
+
+//SAVE IMAGE URL
+export const saveImgUrlHelper = async (imgUrl, userId) => {
+  try {
+    console.log("behind :", imgUrl);
+    const newImage = new postModel({
+      postImage: imgUrl,
+      userId: userId,
+    });
+
+    const savedImg = await newImage.save();
+    return savedImg;
+  } catch (error) {
+    console.log("error during saveImgUrlHelper :", error);
+  }
+};
+
+
+//GET IMAGE URL not based on id
+export const getImgURL = async () => {
+  try {
+    const post = await postModel.find().populate("userId", "Username");
+    console.log("found the post :",post);
+    return post;
+  } catch (error) {
+    console.log("error during getImgURL");
   }
 };
