@@ -60,7 +60,7 @@ export const getUserHelper = async (userId) => {
   } catch (error) {
     console.log("error during getUserHelper :", error);
   }
-};
+};  
 
 //SAVE IMAGE URL
 export const saveImgUrlHelper = async (imgUrl, userId) => {
