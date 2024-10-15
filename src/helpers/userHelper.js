@@ -82,7 +82,7 @@ export const saveImgUrlHelper = async (imgUrl, userId) => {
 //GET IMAGE URL not based on id
 export const getImgURL = async () => {
   try {
-    const post = await postModel.find().populate("userId", "Username");
+    const post = await postModel.find().populate("userId", "Username ProfilePic");
     console.log("found the post :",post);
     return post;
   } catch (error) {

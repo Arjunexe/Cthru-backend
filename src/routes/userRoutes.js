@@ -10,8 +10,9 @@ router.post("/login", login);
 // Get User, Sending the userId from frontend throught params
 router.get("/getUser/:userId", getUser)
 
-// Image Upload and Retrieval
+// Image Upload 
 router.post("/imgUrl", imgUrl)
+// Image retrieval
 router.get("/getUrl", getImgUrl)
 
 

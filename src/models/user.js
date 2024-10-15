@@ -21,7 +21,7 @@ const userSchema = new Schema ({
 
     ProfilePic:{
         type: String,
-        default:"https://res.cloudinary.com/da05006gl/image/upload/v1728641915/k26ibvlekjgz6go1jseb.png"
+        default:"https://res.cloudinary.com/da05006gl/image/upload/v1728931308/plvahmktxsa7rm5mloq8.jpg"
     },
 
     Password:{
