@@ -92,6 +92,8 @@ export const profileImgUrl = async (req, res) => {
     const {ProfilePic, userId} = req.body
     console.log("ProfilePic and UserId", ProfilePic);
     const ProfilePicData = await saveProfilePic(ProfilePic, userId)
+    console.log("ProfileData :", ProfilePicData);
+    
     res.status(200).json({ProfilePicData})
     
   } catch (error) {

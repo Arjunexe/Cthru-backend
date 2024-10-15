@@ -38,6 +38,8 @@ export const loginHelper = async (userData) => {
       console.log("user doesn't exist");
       return false;
     } else {
+      console.log("the passowrd is here :",user.Password);
+      
       userIn = await bcrypt.compare(password, user.Password);
     }
     if (!userIn) {
@@ -50,7 +52,8 @@ export const loginHelper = async (userData) => {
   } catch (error) {
     console.log("error during loginHelper:", error);
   }
-};
+};  //$2b$12$LYcYUiLVUoBf6sV2oMYyqefoYqHSR3M6KUxQ9DGYOGGbb/SrZ6VAm
+    //$2b$12$LYcYUiLVUoBf6sV2oMYyqefoYqHSR3M6KUxQ9DGYOGGbb/SrZ6VAm
 
 //getUser
 export const getUserHelper = async (userId) => {
@@ -100,9 +103,10 @@ export const saveProfilePic = async (ProfilePic, userId) => {
   try{
     const user = await userModel.findById(userId)  
     if(user){
-      user.ProfilePic = ProfilePic
-      const savedProfilePic = await user.save()
-      return savedProfilePic;
+      const updateUserProfile = await userModel.findByIdAndUpdate(userId,{ProfilePic},{new: true})
+      // user.ProfilePic = ProfilePic
+      // const savedProfilePic = await user.save()
+      return updateUserProfile;
     } else {
       console.log("user doesn't exist");
       return false;

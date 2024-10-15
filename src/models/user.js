@@ -21,13 +21,13 @@ const userSchema = new Schema ({
 
     ProfilePic:{
         type: String,
-        default:"https://res.cloudinary.com/da05006gl/image/upload/v1728931308/plvahmktxsa7rm5mloq8.jpg"
+        default:"https://res.cloudinary.com/da05006gl/image/upload/v1729019225/eojz3f7bgoyibhvjsqpq.png"
     },
 
     Password:{
         type: String,
-        required: true,
-        unique: true
+        required: true
+        
     }
     
 })
