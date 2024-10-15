@@ -1,6 +1,7 @@
 import userModel from "../models/user.js";
 import postModel from "../models/postModel.js";
 import bcrypt from "bcrypt";
+import User from "../models/user.js";
 
 //SIGNUP HELPER
 export const signupHelper = async (userData) => {
@@ -19,6 +20,10 @@ export const signupHelper = async (userData) => {
     console.log("error during signupHelper", error);
     throw error;
   }
+
+
+
+
 };
 
 //LOGIN HELPER
@@ -89,3 +94,21 @@ export const getImgURL = async () => {
     console.log("error during getImgURL");
   }
 };
+
+// Save Profile Pic
+export const saveProfilePic = async (ProfilePic, userId) => {
+  try{
+    const user = await userModel.findById(userId)  
+    if(user){
+      user.ProfilePic = ProfilePic
+      const savedProfilePic = await user.save()
+      return savedProfilePic;
+    } else {
+      console.log("user doesn't exist");
+      return false;
+    }
+  } catch (error){
+    console.log("error during saveProfilePic :", error);
+    
+  }
+}

@@ -4,6 +4,7 @@ import {
   signupHelper,
   saveImgUrlHelper,
   getImgURL,
+  saveProfilePic
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -11,12 +12,16 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res) => {
   try {
     let newUser = req.body;
+
     let userData = await signupHelper(newUser);
     const payload = {
       userId: userData._id,
       userName: userData.Username,
     };
-    const token = jwt.sign(payload, process.env.SECRETKEY, { expiresIn: "1h" });
+    const token = jwt.sign(payload, process.env.SECRETKEY, { expiresIn: "100h" });
+
+    // ProfilPicture
+
 
     res.status(200).json({ token });
   } catch (error) {
@@ -80,3 +85,18 @@ export const getImgUrl = async (req, res) => {
     console.log("error during getImgUrl :", error);
   }
 };
+
+
+export const profileImgUrl = async (req, res) => {
+  try{
+    const {ProfilePic, userId} = req.body
+    console.log("ProfilePic and UserId", ProfilePic);
+    const ProfilePicData = await saveProfilePic(ProfilePic, userId)
+    res.status(200).json({ProfilePicData})
+    
+  } catch (error) {
+    console.log("error during profileImgUrl :",error);
+    res.status(500).send(error);
+    
+  }
+}
