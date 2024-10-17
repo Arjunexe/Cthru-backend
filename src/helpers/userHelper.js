@@ -14,7 +14,6 @@ export const signupHelper = async (userData) => {
       Password,
     });
     const savedUser = await newUser.save();
-    console.log("saved user are:", newUser);
     return savedUser;
   } catch (error) {
     console.log("error during signupHelper", error);
@@ -52,14 +51,12 @@ export const loginHelper = async (userData) => {
   } catch (error) {
     console.log("error during loginHelper:", error);
   }
-};  //$2b$12$LYcYUiLVUoBf6sV2oMYyqefoYqHSR3M6KUxQ9DGYOGGbb/SrZ6VAm
-    //$2b$12$LYcYUiLVUoBf6sV2oMYyqefoYqHSR3M6KUxQ9DGYOGGbb/SrZ6VAm
+};
 
 //getUser
 export const getUserHelper = async (userId) => {
   try {
     let userData = await userModel.findOne({ _id: userId },{Password:0});
-    // console.log("this is the user data : ", userData);
     if (!userData) {
       console.log("user data doesn't exist");
       return false;
@@ -73,7 +70,6 @@ export const getUserHelper = async (userId) => {
 //SAVE IMAGE URL
 export const saveImgUrlHelper = async (imgUrl, userId) => {
   try {
-    console.log("behind :", imgUrl);
     const newImage = new postModel({
       postImage: imgUrl,
       userId: userId,
@@ -91,14 +87,13 @@ export const saveImgUrlHelper = async (imgUrl, userId) => {
 export const getImgURL = async () => {
   try {
     const post = await postModel.find().populate("userId", "Username ProfilePic");
-    console.log("found the post :",post);
     return post;
   } catch (error) {
     console.log("error during getImgURL");
   }
 };
 
-// Save Profile Pic
+// SAVING PROFILE PIC UPDATING USING findByIdAndUpdate
 export const saveProfilePic = async (ProfilePic, userId) => {
   try{
     const user = await userModel.findById(userId)  

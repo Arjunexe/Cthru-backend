@@ -3,19 +3,22 @@ import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl } from "../con
 
 const router = Router();
 
-// Login and Signup
+// SIGNUP
 router.post("/signup", signup);
+
+// LOGIN
 router.post("/login", login);
 
-// Get User, Sending the userId from frontend throught params
+// GET USER USING ID FROM THE PARAMS
 router.get("/getUser/:userId", getUser)
 
-// Image Upload 
+// UPLOAD POST IMAGE
 router.post("/imgUrl", imgUrl)
-// Image retrieval
+
+// POST IMAGE RETRIEVAL
 router.get("/getUrl", getImgUrl)
 
-// Save Profile Picture
+// SAVE PROFILE PICTURE 
 router.post("/profileImgUrl",profileImgUrl)
 
 

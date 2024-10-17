@@ -19,10 +19,6 @@ export const signup = async (req, res) => {
       userName: userData.Username,
     };
     const token = jwt.sign(payload, process.env.SECRETKEY, { expiresIn: "100h" });
-
-    // ProfilPicture
-
-
     res.status(200).json({ token });
   } catch (error) {
     console.error("Error during signup:", error);
@@ -53,7 +49,7 @@ export const login = async (req, res) => {
   }
 };
 
-//GET USER
+//GET USER FROM APP.JS
 export const getUser = async (req, res) => {
   try {
     let userId = req.params.userId;
@@ -69,7 +65,6 @@ export const imgUrl = async (req, res) => {
   try {
     const { imgUrl, userId } = req.body;
     let savedImgUrl = await saveImgUrlHelper(imgUrl, userId);
-    // console.log("url finally came :", imgUrl);
     res.status(200).json({ savedImgUrl });
   } catch (error) {
     console.log("error during imgUrl controller: ", error);
@@ -86,14 +81,11 @@ export const getImgUrl = async (req, res) => {
   }
 };
 
-
+// SAVE PROFILE IMAGE
 export const profileImgUrl = async (req, res) => {
   try{
     const {ProfilePic, userId} = req.body
-    console.log("ProfilePic and UserId", ProfilePic);
     const ProfilePicData = await saveProfilePic(ProfilePic, userId)
-    console.log("ProfileData :", ProfilePicData);
-    
     res.status(200).json({ProfilePicData})
     
   } catch (error) {
