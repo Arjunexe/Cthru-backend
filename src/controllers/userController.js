@@ -4,7 +4,8 @@ import {
   signupHelper,
   saveImgUrlHelper,
   getImgURL,
-  saveProfilePic
+  saveProfilePic,
+  followUserHelper
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -91,6 +92,19 @@ export const profileImgUrl = async (req, res) => {
   } catch (error) {
     console.log("error during profileImgUrl :",error);
     res.status(500).send(error);
+    
+  }
+}
+
+// FOLLOW USER
+export const followUser = async (req, res) => {
+  try {
+    const { userFollower, following } = req.body
+    
+    const followData = await followUserHelper (userFollower, following)
+
+  } catch (error) {
+    console.log("error during folloUser :", error);
     
   }
 }

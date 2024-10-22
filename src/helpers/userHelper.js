@@ -2,6 +2,7 @@ import userModel from "../models/user.js";
 import postModel from "../models/postModel.js";
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
+import Follow from "../models/followModel.js";
 
 //SIGNUP HELPER
 export const signupHelper = async (userData) => {
@@ -114,5 +115,25 @@ export const saveProfilePic = async (ProfilePic, userId) => {
   } catch (error){
     console.log("error during saveProfilePic :", error);
     
+  }
+}
+
+// SAVE FOLLOWER AND FOLLOWING 
+export const followUserHelper = async (userFollower, following) => {
+  try {
+    console.log("its in here buddy :", userFollower);
+    const followerUser = await Follow.findOne({userId : userFollower}) 
+    console.log("there is a userFollower :", followerUser);
+    if(!followerUser){
+      
+
+    }
+
+
+
+
+  } catch (error) {
+      console.log("error during followuserHelper :", error);
+      
   }
 }

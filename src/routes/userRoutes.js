@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl } from "../controllers/userController.js";
+import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -20,6 +20,9 @@ router.get("/getUrl", getImgUrl)
 
 // SAVE PROFILE PICTURE 
 router.post("/profileImgUrl",profileImgUrl)
+
+// FOLLOW USER
+router.post("/followUser", followUser)
 
 
 export default router;

@@ -15,6 +15,7 @@ const followSchema = new Schema({
         required: true,
       },
     ],
+    
   },
 
   following: {
@@ -25,6 +26,7 @@ const followSchema = new Schema({
         required: true,
       },
     ],
+    
   },
 });
 
