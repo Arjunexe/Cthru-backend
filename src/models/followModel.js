@@ -14,7 +14,7 @@ const followSchema = new Schema({
         ref: "User",
         required: true,
       },
-    ],
+    ], default:[],
     
   },
 
@@ -25,7 +25,7 @@ const followSchema = new Schema({
         ref: "User",
         required: true,
       },
-    ],
+    ],default:[],
     
   },
 });

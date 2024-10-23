@@ -122,15 +122,17 @@ export const saveProfilePic = async (ProfilePic, userId) => {
 export const followUserHelper = async (userFollower, following) => {
   try {
     console.log("its in here buddy :", userFollower);
-    const followerUser = await Follow.findOne({userId : userFollower}) 
+    const followerUser = await Follow.findOneAndUpdate({userId : userFollower}, { $addToSet: { following: following } },{ new: true, upsert: true })
+
+
     console.log("there is a userFollower :", followerUser);
     if(!followerUser){
-      
+      console.log("somethings wrong");
+    } else {
+      const followingUser = await Follow.findOneAndUpdate({userId: following}, { $addToSet: { followers: userFollower }}, {new: true, upsert: true})
+      console.log("there is a followingUser :", followingUser);
 
     }
-
-
-
 
   } catch (error) {
       console.log("error during followuserHelper :", error);
