@@ -54,8 +54,9 @@ export const login = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     let userId = req.params.userId;
-    let userData = await getUserHelper(userId);
-    res.status(200).json({ userData });
+    let {userData, userFollowData} = await getUserHelper(userId);
+    
+    res.status(200).json({ userData, userFollowData });
   } catch (error) {
     console.log("error during getUser controller : ", error);
   }
@@ -102,9 +103,10 @@ export const followUser = async (req, res) => {
     const { userFollower, following } = req.body
     
     const followData = await followUserHelper (userFollower, following)
-
+    console.log("its in here buddy :", followData);
+    console.log("its in here buddy :", followData);
+    res.status(200).json({followData});
   } catch (error) {
-    console.log("error during folloUser :", error);
-    
+    res.status(500).json({ error: error.message });
   }
 }

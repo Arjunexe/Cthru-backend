@@ -36,3 +36,5 @@ mongoose
 
 //RouterSs
 app.use("/user", userRouter);
+//app.use("/")    messageRouter
+//app.use("/")    adminRouter

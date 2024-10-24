@@ -58,11 +58,13 @@ export const loginHelper = async (userData) => {
 export const getUserHelper = async (userId) => {
   try {
     let userData = await userModel.findOne({ _id: userId },{Password:0});
+    let userFollowData = await Follow.findOne({userId: userId})
+    
     if (!userData) {
       console.log("user data doesn't exist");
       return false;
     }
-    return userData;
+    return { userData, userFollowData };
   } catch (error) {
     console.log("error during getUserHelper :", error);
   }
@@ -121,17 +123,16 @@ export const saveProfilePic = async (ProfilePic, userId) => {
 // SAVE FOLLOWER AND FOLLOWING 
 export const followUserHelper = async (userFollower, following) => {
   try {
-    console.log("its in here buddy :", userFollower);
+    // console.log("its in here buddy :", userFollower);
     const followerUser = await Follow.findOneAndUpdate({userId : userFollower}, { $addToSet: { following: following } },{ new: true, upsert: true })
-
-
-    console.log("there is a userFollower :", followerUser);
+    
     if(!followerUser){
       console.log("somethings wrong");
     } else {
       const followingUser = await Follow.findOneAndUpdate({userId: following}, { $addToSet: { followers: userFollower }}, {new: true, upsert: true})
-      console.log("there is a followingUser :", followingUser);
+      // console.log("its in here buddy :", followingUser);
 
+      return followerUser;
     }
 
   } catch (error) {
