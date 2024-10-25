@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser } from "../controllers/userController.js";
+import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser, unFollowUser } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -23,6 +23,9 @@ router.post("/profileImgUrl",profileImgUrl)
 
 // FOLLOW USER
 router.post("/followUser", followUser)
+
+// UNFOLOOW USER
+router.post("/unFollowUser", unFollowUser)
 
 
 export default router;

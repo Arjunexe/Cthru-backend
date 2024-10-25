@@ -5,7 +5,8 @@ import {
   saveImgUrlHelper,
   getImgURL,
   saveProfilePic,
-  followUserHelper
+  followUserHelper,
+  unFollowUserHelper
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -103,10 +104,28 @@ export const followUser = async (req, res) => {
     const { userFollower, following } = req.body
     
     const followData = await followUserHelper (userFollower, following)
-    console.log("its in here buddy :", followData);
-    console.log("its in here buddy :", followData);
+    // console.log("its in here buddy :", followData);
+    // console.log("its in here buddy :", followData);
     res.status(200).json({followData});
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+}
+
+// UNFOLLOW USER
+export const unFollowUser = async (req, res) => {
+  try {
+    const { userFollower, following } = req.body
+    const unFollowData = await unFollowUserHelper( userFollower, following )
+    
+    if(!unFollowData){
+      console.log("somethings wrong in unfollowUser");
+    } else {
+      res.status(200).json({unFollowData})
+    }
+    
+  } catch (error) {
+    console.log("error during unFollowUser :", error);
+    
   }
 }

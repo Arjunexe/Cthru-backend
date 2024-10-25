@@ -120,17 +120,16 @@ export const saveProfilePic = async (ProfilePic, userId) => {
   }
 }
 
-// SAVE FOLLOWER AND FOLLOWING 
+// FOLLOW USER
 export const followUserHelper = async (userFollower, following) => {
   try {
-    // console.log("its in here buddy :", userFollower);
+
     const followerUser = await Follow.findOneAndUpdate({userId : userFollower}, { $addToSet: { following: following } },{ new: true, upsert: true })
-    
+    // console.log("its in here dudee :", followerUser);
     if(!followerUser){
       console.log("somethings wrong");
     } else {
       const followingUser = await Follow.findOneAndUpdate({userId: following}, { $addToSet: { followers: userFollower }}, {new: true, upsert: true})
-      // console.log("its in here buddy :", followingUser);
 
       return followerUser;
     }
@@ -138,5 +137,26 @@ export const followUserHelper = async (userFollower, following) => {
   } catch (error) {
       console.log("error during followuserHelper :", error);
       
+  }
+}
+
+
+// UNFOLLOW USER
+export const unFollowUserHelper = async ( userFollower, following ) => {
+  try {
+    const unFolloUser = await Follow.findOneAndUpdate({userId: userFollower}, { $pull: { following : following}}, { new: true } )
+    // console.log("its hereree :", unFolloUser);
+
+    
+if(!unFolloUser){
+  console.log("somethings wrong");
+} else {
+  const unFollowed = await Follow.findOneAndUpdate({userId: following}, {$pull: { followers: userFollower}})
+}
+    return unFolloUser;
+
+  } catch (error) {
+    console.log("error during unFollowUserHelper :", error);
+    
   }
 }
