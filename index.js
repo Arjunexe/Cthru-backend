@@ -6,6 +6,8 @@ import logger from "morgan";
 import cors from "cors";
 
 import userRouter from "./src/routes/userRoutes.js";
+import messageRouter from "./src/routes/messageRouter.js";
+
 import cloudinaryConfig from "./src/services/cloudinary.js";
 
 const app = express();
@@ -36,5 +38,5 @@ mongoose
 
 //RouterSs
 app.use("/user", userRouter);
-//app.use("/")    messageRouter
-//app.use("/")    adminRouter
+app.use("/messages", messageRouter)    
+//app.use("/admin", adminRouter)    
