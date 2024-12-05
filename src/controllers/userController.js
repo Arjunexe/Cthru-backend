@@ -136,8 +136,10 @@ export const getFollowing = async (req, res) => {
   try {
 
       const userId = req.params.userId
-      console.log("here is the dataaaa:", userId);
       const followingData = await getFollowingtHelper(userId)
+      console.log("hopefully it the details :", followingData);
+      res.status(200).json({followingData})
+
       
   } catch (error) {
       console.log("error during getFollowing:", error);

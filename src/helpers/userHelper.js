@@ -1,7 +1,7 @@
 import userModel from "../models/user.js";
 import postModel from "../models/postModel.js";
 import bcrypt from "bcrypt";
-import User from "../models/user.js";
+// import User from "../models/user.js";
 import Follow from "../models/followModel.js";
 
 //SIGNUP HELPER
@@ -160,11 +160,20 @@ if(!unFolloUser){
 // GET FOLLOWING USER DATA
 export const getFollowingtHelper = async (userId) => {
   try{
-       const followingData = await userModel.findById(followingList)
+       const followingData = await Follow.findOne({userId: userId}, { _id: 0, followers: 0, userId: 0})
 
-       console.log("hopefully it the details :", followingData);
-       
+       if(!followingData){
+        return false
+       } if(!followingData.following){
+         return false
+       } else {
+        const followingUserData = followingData.following
+
+        const followingUser = await userModel.find({_id: { $in: followingUserData}}, {Username: 1, _id: 0})
+        return followingUser;
+       }
   } catch (error){
+      console.log("error during getFollowingHelper:", error);
       
   }
 }
