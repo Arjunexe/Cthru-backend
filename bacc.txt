@@ -1,0 +1,3 @@
+
+following, unfollowing in the user controller and helper 
+get following data is in the message controller and helper

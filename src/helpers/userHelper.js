@@ -123,20 +123,16 @@ export const saveProfilePic = async (ProfilePic, userId) => {
 // FOLLOW USER
 export const followUserHelper = async (userFollower, following) => {
   try {
-
     const followerUser = await Follow.findOneAndUpdate({userId : userFollower}, { $addToSet: { following: following } },{ new: true, upsert: true })
     // console.log("its in here dudee :", followerUser);
     if(!followerUser){
       console.log("somethings wrong");
     } else {
       const followingUser = await Follow.findOneAndUpdate({userId: following}, { $addToSet: { followers: userFollower }}, {new: true, upsert: true})
-
       return followerUser;
     }
-
   } catch (error) {
-      console.log("error during followuserHelper :", error);
-      
+      console.log("error during followuserHelper :", error);  
   }
 }
 
@@ -158,5 +154,17 @@ if(!unFolloUser){
   } catch (error) {
     console.log("error during unFollowUserHelper :", error);
     
+  }
+}
+
+// GET FOLLOWING USER DATA
+export const getFollowingtHelper = async (userId) => {
+  try{
+       const followingData = await userModel.findById(followingList)
+
+       console.log("hopefully it the details :", followingData);
+       
+  } catch (error){
+      
   }
 }

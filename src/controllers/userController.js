@@ -6,7 +6,8 @@ import {
   getImgURL,
   saveProfilePic,
   followUserHelper,
-  unFollowUserHelper
+  unFollowUserHelper,
+  getFollowingtHelper
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -129,3 +130,18 @@ export const unFollowUser = async (req, res) => {
     
   }
 }
+
+// GET FOLLOWING USER DATA
+export const getFollowing = async (req, res) => {
+  try {
+
+      const userId = req.params.userId
+      console.log("here is the dataaaa:", userId);
+      const followingData = await getFollowingtHelper(userId)
+      
+  } catch (error) {
+      console.log("error during getFollowing:", error);
+      
+  }
+}
+
