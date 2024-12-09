@@ -56,9 +56,9 @@ export const login = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     let userId = req.params.userId;
-    let {userData, userFollowData} = await getUserHelper(userId);
+    let {userData, userFollowData, userPost} = await getUserHelper(userId);
     
-    res.status(200).json({ userData, userFollowData });
+    res.status(200).json({ userData, userFollowData, userPost });
   } catch (error) {
     console.log("error during getUser controller : ", error);
   }

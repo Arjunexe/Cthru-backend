@@ -1,3 +1,5 @@
 
-following, unfollowing in the user controller and helper 
-get following data is in the message controller and helper
+! To kill the port if its already running somewhere
+To find the PID no of the port -> netstat -ano | findstr :3000
+To kill the port -> taskkill /PID 12028 /F
+To see the task list -> tasklist | findstr 12028

@@ -59,14 +59,16 @@ export const getUserHelper = async (userId) => {
   try {
     let userData = await userModel.findOne({ _id: userId },{Password:0});
     let userFollowData = await Follow.findOne({userId: userId})
+    let userPost = await postModel.find({userId}).exec()
+    console.log("gggggggggggggggggggggg", userPost );
     
     if (!userData) {
-      console.log("user data doesn't exist");
+      console.log("user dataaa doesn't exist");   
       return false;
     }
-    return { userData, userFollowData };
+    return { userData, userFollowData, userPost };
   } catch (error) {
-    console.log("error during getUserHelper :", error);
+    console.log("error during getUserHelper :", error); 
   }
 };  
  
@@ -88,7 +90,9 @@ export const saveImgUrlHelper = async (imgUrl, userId) => {
 
 //GET IMAGE URL not based on id
 export const getImgURL = async () => {
+
   try {
+    
     const post = await postModel.find().populate("userId", "Username ProfilePic").sort({ createdAt: -1 });
     return post;
   } catch (error) {
