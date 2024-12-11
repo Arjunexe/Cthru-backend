@@ -3,3 +3,8 @@
 To find the PID no of the port -> netstat -ano | findstr :3000
 To kill the port -> taskkill /PID 12028 /F
 To see the task list -> tasklist | findstr 12028
+
+!shortcut
+close all tab -> Ctrl K W
+settings -> Ctlr ,
+format -> Shirft Alt F

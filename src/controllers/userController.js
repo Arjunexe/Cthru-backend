@@ -151,3 +151,12 @@ export const getFollowing = async (req, res) => {
   }
 }
 
+// GET USER BASED ON USER NAME 
+export const getUserNameController = async (req, res) => {
+  try{
+
+  } catch (error){
+    console.log("error during getUserNameController", error);
+    
+  }
+}

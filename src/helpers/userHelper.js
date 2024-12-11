@@ -57,6 +57,12 @@ export const loginHelper = async (userData) => {
 //getUser
 export const getUserHelper = async (userId) => {
   try {
+    if( userId > 10) {
+
+    } else {
+      
+    }
+
     let userData = await userModel.findOne({ _id: userId },{Password:0});
     let userFollowData = await Follow.findOne({userId: userId})
     let userPost = await postModel.find({userId}).exec()

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser, unFollowUser, getFollowing } from "../controllers/userController.js";
+import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser, unFollowUser, getFollowing, getUserNameController } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -29,6 +29,9 @@ router.post("/unFollowUser", unFollowUser)
 
 // GET FOLLOWING USER DATA
 router.get("/getFollowing/:userId", getFollowing)
+
+// GET USER BASED ON USER NAME
+router.get("getUserNameData/:urlUsername", getUserNameController)
 
 
 export default router;
