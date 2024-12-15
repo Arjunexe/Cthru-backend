@@ -55,24 +55,33 @@ export const loginHelper = async (userData) => {
 };
 
 //getUser
-export const getUserHelper = async (userId) => {
+export const getUserHelper = async (userInfo) => {
   try {
-    if( userId > 10) {
 
-    } else {
+    let userId = userInfo
+
+    if( userInfo && userInfo.length <= 10) {
+
+      let userFullId = await userModel.findOne({Username: userInfo}, {_id: 1})
+      userId = userFullId._id.toString()
+      console.log("ssssssssssssssssssssssssssssss", userId);
       
-    }
-
+    } 
+      
     let userData = await userModel.findOne({ _id: userId },{Password:0});
     let userFollowData = await Follow.findOne({userId: userId})
     let userPost = await postModel.find({userId}).exec()
-    console.log("gggggggggggggggggggggg", userPost );
+    console.log("gggggggggggggggggggggg", userId );
     
     if (!userData) {
       console.log("user dataaa doesn't exist");   
       return false;
     }
     return { userData, userFollowData, userPost };
+         
+    
+
+
   } catch (error) {
     console.log("error during getUserHelper :", error); 
   }
@@ -94,7 +103,7 @@ export const saveImgUrlHelper = async (imgUrl, userId) => {
 };
 
 
-//GET IMAGE URL not based on id
+//GET IMAGE URL NOT BASED ON _ID
 export const getImgURL = async () => {
 
   try {

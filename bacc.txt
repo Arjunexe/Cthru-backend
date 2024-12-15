@@ -8,3 +8,6 @@ To see the task list -> tasklist | findstr 12028
 close all tab -> Ctrl K W
 settings -> Ctlr ,
 format -> Shirft Alt F
+find and terminate node process -> Get-Process node, Stop-Process -Name node -Force
+
+
