@@ -61,10 +61,13 @@ export const getUserHelper = async (userInfo) => {
     let userId = userInfo
 
     if( userInfo && userInfo.length <= 10) {
+      console.log("fuilllllllllllllllll", userInfo);
 
       let userFullId = await userModel.findOne({Username: userInfo}, {_id: 1})
+      console.log("ffffffffff", userFullId);
+
       userId = userFullId._id.toString()
-      console.log("ssssssssssssssssssssssssssssss", userId);
+      console.log("ssssssssssssssssssssssssssssss", userFullId);
       
     } 
       
