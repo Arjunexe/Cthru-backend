@@ -20,10 +20,6 @@ export const signupHelper = async (userData) => {
     console.log("error during signupHelper", error);
     throw error;
   }
-
-
-
-
 };
 
 //LOGIN HELPER
@@ -38,8 +34,8 @@ export const loginHelper = async (userData) => {
       console.log("user doesn't exist");
       return false;
     } else {
-      console.log("the passowrd is here :",user.Password);
-      
+      console.log("the passowrd is here :", user.Password);
+
       userIn = await bcrypt.compare(password, user.Password);
     }
     if (!userIn) {
@@ -57,39 +53,36 @@ export const loginHelper = async (userData) => {
 //getUser
 export const getUserHelper = async (userInfo) => {
   try {
+    let userId = userInfo;
 
-    let userId = userInfo
-
-    if( userInfo && userInfo.length <= 10) {
+    if (userInfo && userInfo.length <= 10) {
       console.log("fuilllllllllllllllll", userInfo);
 
-      let userFullId = await userModel.findOne({Username: userInfo}, {_id: 1})
+      let userFullId = await userModel.findOne(
+        { Username: userInfo },
+        { _id: 1 }
+      );
       console.log("ffffffffff", userFullId);
 
-      userId = userFullId._id.toString()
+      userId = userFullId._id.toString();
       console.log("ssssssssssssssssssssssssssssss", userFullId);
-      
-    } 
-      
-    let userData = await userModel.findOne({ _id: userId },{Password:0});
-    let userFollowData = await Follow.findOne({userId: userId})
-    let userPost = await postModel.find({userId}).exec()
-    console.log("gggggggggggggggggggggg", userId );
-    
+    }
+
+    let userData = await userModel.findOne({ _id: userId }, { Password: 0 });
+    let userFollowData = await Follow.findOne({ userId: userId });
+    let userPost = await postModel.find({ userId }).exec();
+    console.log("gggggggggggggggggggggg", userId);
+
     if (!userData) {
-      console.log("user dataaa doesn't exist");   
+      console.log("user dataaa doesn't exist");
       return false;
     }
     return { userData, userFollowData, userPost };
-         
-    
-
-
   } catch (error) {
-    console.log("error during getUserHelper :", error); 
+    console.log("error during getUserHelper :", error);
   }
-};  
- 
+};
+
 //SAVE IMAGE URL
 export const saveImgUrlHelper = async (imgUrl, userId) => {
   try {
@@ -105,13 +98,13 @@ export const saveImgUrlHelper = async (imgUrl, userId) => {
   }
 };
 
-
 //GET IMAGE URL NOT BASED ON _ID
 export const getImgURL = async () => {
-
   try {
-    
-    const post = await postModel.find().populate("userId", "Username ProfilePic").sort({ createdAt: -1 });
+    const post = await postModel
+      .find()
+      .populate("userId", "Username ProfilePic")
+      .sort({ createdAt: -1 });
     return post;
   } catch (error) {
     console.log("error during getImgURL");
@@ -120,15 +113,16 @@ export const getImgURL = async () => {
 
 // AI
 
-
-
-
 // SAVING PROFILE PIC UPDATING USING findByIdAndUpdate
 export const saveProfilePic = async (ProfilePic, userId) => {
-  try{
-    const user = await userModel.findById(userId)  
-    if(user){
-      const updateUserProfile = await userModel.findByIdAndUpdate(userId,{ProfilePic},{new: true})
+  try {
+    const user = await userModel.findById(userId);
+    if (user) {
+      const updateUserProfile = await userModel.findByIdAndUpdate(
+        userId,
+        { ProfilePic },
+        { new: true }
+      );
       // user.ProfilePic = ProfilePic
       // const savedProfilePic = await user.save()
       return updateUserProfile;
@@ -136,66 +130,82 @@ export const saveProfilePic = async (ProfilePic, userId) => {
       console.log("user doesn't exist");
       return false;
     }
-  } catch (error){
+  } catch (error) {
     console.log("error during saveProfilePic :", error);
-    
   }
-}
+};
 
 // FOLLOW USER
 export const followUserHelper = async (userFollower, following) => {
   try {
-    const followerUser = await Follow.findOneAndUpdate({userId : userFollower}, { $addToSet: { following: following } },{ new: true, upsert: true })
+    const followerUser = await Follow.findOneAndUpdate(
+      { userId: userFollower },
+      { $addToSet: { following: following } },
+      { new: true, upsert: true }
+    );
     // console.log("its in here dudee :", followerUser);
-    if(!followerUser){
+    if (!followerUser) {
       console.log("somethings wrong");
     } else {
-      const followingUser = await Follow.findOneAndUpdate({userId: following}, { $addToSet: { followers: userFollower }}, {new: true, upsert: true})
+      const followingUser = await Follow.findOneAndUpdate(
+        { userId: following },
+        { $addToSet: { followers: userFollower } },
+        { new: true, upsert: true }
+      );
       return followerUser;
     }
   } catch (error) {
-      console.log("error during followuserHelper :", error);  
+    console.log("error during followuserHelper :", error);
   }
-}
-
+};
 
 // UNFOLLOW USER
-export const unFollowUserHelper = async ( userFollower, following ) => {
+export const unFollowUserHelper = async (userFollower, following) => {
   try {
-    const unFolloUser = await Follow.findOneAndUpdate({userId: userFollower}, { $pull: { following : following}}, { new: true } )
+    const unFolloUser = await Follow.findOneAndUpdate(
+      { userId: userFollower },
+      { $pull: { following: following } },
+      { new: true }
+    );
     // console.log("its hereree :", unFolloUser);
 
-    
-if(!unFolloUser){
-  console.log("somethings wrong");
-} else {
-  const unFollowed = await Follow.findOneAndUpdate({userId: following}, {$pull: { followers: userFollower}})
-}
+    if (!unFolloUser) {
+      console.log("somethings wrong");
+    } else {
+      const unFollowed = await Follow.findOneAndUpdate(
+        { userId: following },
+        { $pull: { followers: userFollower } }
+      );
+    }
     return unFolloUser;
-
   } catch (error) {
     console.log("error during unFollowUserHelper :", error);
-    
   }
-}
+};
 
 // GET FOLLOWING USER DATA
 export const getFollowingtHelper = async (userId) => {
-  try{
-       const followingData = await Follow.findOne({userId: userId}, { _id: 0, followers: 0, userId: 0})
+  try {
+    const followingData = await Follow.findOne(
+      { userId: userId },
+      { _id: 0, followers: 0, userId: 0 }
+    );
 
-       if(!followingData){
-        return false
-       } if(!followingData.following){
-         return false
-       } else {
-        const followingUserData = followingData.following
+    if (!followingData) {
+      return false;
+    }
+    if (!followingData.following) {
+      return false;
+    } else {
+      const followingUserData = followingData.following;
 
-        const followingUser = await userModel.find({_id: { $in: followingUserData}}, {Username: 1, _id: 0})
-        return followingUser;
-       }
-  } catch (error){
-      console.log("error during getFollowingHelper:", error);
-      
+      const followingUser = await userModel.find(
+        { _id: { $in: followingUserData } },
+        { Username: 1, _id: 0 }
+      );
+      return followingUser;
+    }
+  } catch (error) {
+    console.log("error during getFollowingHelper:", error);
   }
-}
+};
