@@ -7,7 +7,8 @@ import {
   saveProfilePic,
   followUserHelper,
   unFollowUserHelper,
-  getFollowingtHelper
+  getFollowingtHelper,
+  deletePostHelper
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -150,6 +151,21 @@ export const profileImgUrl = async (req, res) => {
   } catch (error) {
     console.log("error during profileImgUrl :",error);
     res.status(500).send(error);
+    
+  }
+}
+
+// DELETE POST FROM DB & FROM CLOUD CONTROLLER
+export const deletePost = async (req,res) => {
+  try {
+    const {publicId, postImg} = req.body
+    const deletedPost = await deletePostHelper(publicId, postImg)
+    if(deletePost){
+      
+    }
+    
+  } catch (error) {
+    console.log("error during deletPost: ", error);
     
   }
 }

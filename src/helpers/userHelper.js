@@ -3,6 +3,8 @@ import postModel from "../models/postModel.js";
 import bcrypt from "bcrypt";
 // import User from "../models/user.js";
 import Follow from "../models/followModel.js";
+import cloudinaryConfig from "../services/cloudinary.js";
+import { v2 as cloudinary } from "cloudinary";
 
 //SIGNUP HELPER
 export const signupHelper = async (userData) => {
@@ -213,3 +215,20 @@ export const saveProfilePic = async (ProfilePic, userId) => {
   }
 };
 
+// DELETE POST FROM DB AND FROM CLOUD
+export const deletePostHelper = async(publicId, postImg) => {
+  try {
+
+    const deleteFromCloud = await cloudinary.uploader.destroy(publicId)
+    if(deleteFromCloud.result !== 'ok'){
+      console.log("Post from Cloud not deleted");
+    }
+    const deleteFromDb = await postModel.deleteOne({postImage: postImg})
+
+    return deleteFromDb;
+    
+  } catch (error) {
+    console.log("error during deletePostHelper: ", error);
+    
+  }
+}
