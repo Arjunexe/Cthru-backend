@@ -83,57 +83,6 @@ export const getUserHelper = async (userInfo) => {
   }
 };
 
-//SAVE IMAGE URL
-export const saveImgUrlHelper = async (imgUrl, userId) => {
-  try {
-    const newImage = new postModel({
-      postImage: imgUrl,
-      userId: userId,
-    });
-
-    const savedImg = await newImage.save();
-    return savedImg;
-  } catch (error) {
-    console.log("error during saveImgUrlHelper :", error);
-  }
-};
-
-//GET IMAGE URL NOT BASED ON _ID
-export const getImgURL = async () => {
-  try {
-    const post = await postModel
-      .find()
-      .populate("userId", "Username ProfilePic")
-      .sort({ createdAt: -1 });
-    return post;
-  } catch (error) {
-    console.log("error during getImgURL");
-  }
-};
-
-// AI
-
-// SAVING PROFILE PIC UPDATING USING findByIdAndUpdate
-export const saveProfilePic = async (ProfilePic, userId) => {
-  try {
-    const user = await userModel.findById(userId);
-    if (user) {
-      const updateUserProfile = await userModel.findByIdAndUpdate(
-        userId,
-        { ProfilePic },
-        { new: true }
-      );
-      // user.ProfilePic = ProfilePic
-      // const savedProfilePic = await user.save()
-      return updateUserProfile;
-    } else {
-      console.log("user doesn't exist");
-      return false;
-    }
-  } catch (error) {
-    console.log("error during saveProfilePic :", error);
-  }
-};
 
 // FOLLOW USER
 export const followUserHelper = async (userFollower, following) => {
@@ -209,3 +158,58 @@ export const getFollowingtHelper = async (userId) => {
     console.log("error during getFollowingHelper:", error);
   }
 };
+
+//-------------------- POST / IMAGE HELPER ---------------------
+
+//SAVE IMAGE URL
+export const saveImgUrlHelper = async (imgUrl, userId) => {
+  try {
+    const newImage = new postModel({
+      postImage: imgUrl,
+      userId: userId,
+    });
+
+    const savedImg = await newImage.save();
+    return savedImg;
+  } catch (error) {
+    console.log("error during saveImgUrlHelper :", error);
+  }
+};
+
+//GET IMAGE URL NOT BASED ON _ID
+export const getImgURL = async () => {
+  try {
+    const post = await postModel
+      .find()
+      .populate("userId", "Username ProfilePic")
+      .sort({ createdAt: -1 });
+    return post;
+  } catch (error) {
+    console.log("error during getImgURL");
+  }
+};
+
+// AI
+
+// SAVING PROFILE PIC UPDATING USING findByIdAndUpdate
+export const saveProfilePic = async (ProfilePic, userId) => {
+  try {
+    const user = await userModel.findById(userId);
+    if (user) {
+      const updateUserProfile = await userModel.findByIdAndUpdate(
+        userId,
+        { ProfilePic },
+        { new: true }
+      );
+      // user.ProfilePic = ProfilePic
+      // const savedProfilePic = await user.save()
+      return updateUserProfile;
+    } else {
+      console.log("user doesn't exist");
+      return false;
+    }
+  } catch (error) {
+    console.log("error during saveProfilePic :", error);
+  }
+};
+

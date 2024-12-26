@@ -64,41 +64,6 @@ export const getUser = async (req, res) => {
   }
 };
 
-// Save IMAGE URL
-export const imgUrl = async (req, res) => {
-  try {
-    const { imgUrl, userId } = req.body;
-    let savedImgUrl = await saveImgUrlHelper(imgUrl, userId);
-    res.status(200).json({ savedImgUrl });
-  } catch (error) {
-    console.log("error during imgUrl controller: ", error);
-  }
-};
-
-//GET IMAGE URL
-export const getImgUrl = async (req, res) => {
-  try {
-    const imgURL = await getImgURL();
-    res.json(imgURL);
-  } catch (error) {
-    console.log("error during getImgUrl :", error);
-  }
-};
-
-// SAVE PROFILE IMAGE
-export const profileImgUrl = async (req, res) => {
-  try{
-    const {ProfilePic, userId} = req.body
-    const ProfilePicData = await saveProfilePic(ProfilePic, userId)
-    res.status(200).json({ProfilePicData})
-    
-  } catch (error) {
-    console.log("error during profileImgUrl :",error);
-    res.status(500).send(error);
-    
-  }
-}
-
 // FOLLOW USER
 export const followUser = async (req, res) => {
   try {
@@ -151,6 +116,49 @@ export const getFollowing = async (req, res) => {
   }
 }
 
+
+//-------------- POST / IMAGE CONTROLLER ---------------
+
+// Save IMAGE URL
+export const imgUrl = async (req, res) => {
+  try {
+    const { imgUrl, userId } = req.body;
+    let savedImgUrl = await saveImgUrlHelper(imgUrl, userId);
+    res.status(200).json({ savedImgUrl });
+  } catch (error) {
+    console.log("error during imgUrl controller: ", error);
+  }
+};
+
+//GET IMAGE URL
+export const getImgUrl = async (req, res) => {
+  try {
+    const imgURL = await getImgURL();
+    res.json(imgURL);
+  } catch (error) {
+    console.log("error during getImgUrl :", error);
+  }
+};
+
+// SAVE PROFILE IMAGE
+export const profileImgUrl = async (req, res) => {
+  try{
+    const {ProfilePic, userId} = req.body
+    const ProfilePicData = await saveProfilePic(ProfilePic, userId)
+    res.status(200).json({ProfilePicData})
+    
+  } catch (error) {
+    console.log("error during profileImgUrl :",error);
+    res.status(500).send(error);
+    
+  }
+}
+
+
+
+
+
+//QUESTIONABLE
 // GET USER BASED ON USER NAME 
 export const getUserNameController = async (req, res) => {
   try{
