@@ -224,6 +224,8 @@ export const deletePostHelper = async(publicId, postImg) => {
       console.log("Post from Cloud not deleted");
     }
     const deleteFromDb = await postModel.deleteOne({postImage: postImg})
+    console.log(deleteFromDb);
+    
 
     return deleteFromDb;
     
