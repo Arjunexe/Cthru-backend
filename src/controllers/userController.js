@@ -60,8 +60,12 @@ export const getUser = async (req, res) => {
   try {
     let userId = req.params.userId;
     let { userData, userFollowData, userPost } = await getUserHelper(userId);
+    if(userData){
+      res.status(200).json({ userData, userFollowData, userPost });
+    } else {
+      res.status(500).json({success: false})
+    }
 
-    res.status(200).json({ userData, userFollowData, userPost });
   } catch (error) {
     console.log("error during getUser controller : ", error);
   }

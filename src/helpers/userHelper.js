@@ -58,33 +58,33 @@ export const getUserHelper = async (userInfo) => {
     let userId = userInfo;
 
     if (userInfo && userInfo.length <= 10) {
-      console.log("fuilllllllllllllllll", userInfo);
+      console.log("its username", userInfo);
 
       let userFullId = await userModel.findOne(
         { Username: userInfo },
         { _id: 1 }
       );
-      console.log("ffffffffff", userFullId);
-
+      console.log("userFullId here: ", userFullId);
+      if (!userFullId) {
+        console.log("user dataaa doesn't exist");
+        return false;
+      }
       userId = userFullId._id.toString();
-      console.log("ssssssssssssssssssssssssssssss", userFullId);
+      console.log("JUST id is here: ", userFullId);  
     }
+    
 
     let userData = await userModel.findOne({ _id: userId }, { Password: 0 });
     let userFollowData = await Follow.findOne({ userId: userId });
     let userPost = await postModel.find({ userId }).exec();
     console.log("gggggggggggggggggggggg", userId);
 
-    if (!userData) {
-      console.log("user dataaa doesn't exist");
-      return false;
-    }
+    
     return { userData, userFollowData, userPost };
   } catch (error) {
     console.log("error during getUserHelper :", error);
-  }
+  }    
 };
-
 
 // FOLLOW USER
 export const followUserHelper = async (userFollower, following) => {
@@ -216,21 +216,17 @@ export const saveProfilePic = async (ProfilePic, userId) => {
 };
 
 // DELETE POST FROM DB AND FROM CLOUD
-export const deletePostHelper = async(publicId, postImg) => {
+export const deletePostHelper = async (publicId, postImg) => {
   try {
-
-    const deleteFromCloud = await cloudinary.uploader.destroy(publicId)
-    if(deleteFromCloud.result !== 'ok'){
+    const deleteFromCloud = await cloudinary.uploader.destroy(publicId);
+    if (deleteFromCloud.result !== "ok") {
       console.log("Post from Cloud not deleted");
     }
-    const deleteFromDb = await postModel.deleteOne({postImage: postImg})
+    const deleteFromDb = await postModel.deleteOne({ postImage: postImg });
     console.log(deleteFromDb);
-    
 
     return deleteFromDb;
-    
   } catch (error) {
     console.log("error during deletePostHelper: ", error);
-    
   }
-}
+};
