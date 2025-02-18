@@ -7,6 +7,8 @@ import cors from "cors";
 
 import userRouter from "./src/routes/userRoutes.js";
 import messageRouter from "./src/routes/messageRouter.js";
+import adminRouter from "./src/routes/adminRouter.js"
+
 
 
 import cloudinaryConfig from "./src/services/cloudinary.js";
@@ -40,4 +42,4 @@ mongoose
 //RouterSs
 app.use("/user", userRouter);
 app.use("/messages", messageRouter)    
-// app.use("/admin", adminRouter)    
+app.use("/admin", adminRouter)    
