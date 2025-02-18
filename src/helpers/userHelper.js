@@ -70,20 +70,18 @@ export const getUserHelper = async (userInfo) => {
         return false;
       }
       userId = userFullId._id.toString();
-      console.log("JUST id is here: ", userFullId);  
+      console.log("JUST id is here: ", userFullId);
     }
-    
 
     let userData = await userModel.findOne({ _id: userId }, { Password: 0 });
     let userFollowData = await Follow.findOne({ userId: userId });
     let userPost = await postModel.find({ userId }).exec();
     console.log("gggggggggggggggggggggg", userId);
 
-    
     return { userData, userFollowData, userPost };
   } catch (error) {
     console.log("error during getUserHelper :", error);
-  }    
+  }
 };
 
 // FOLLOW USER
