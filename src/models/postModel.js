@@ -13,6 +13,15 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+
+    like: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+    },
   },
   { timestamps: true }
 );
