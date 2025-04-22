@@ -9,6 +9,7 @@ import {
   unFollowUserHelper,
   getFollowingtHelper,
   deletePostHelper,
+  likePostHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -60,12 +61,11 @@ export const getUser = async (req, res) => {
   try {
     let userId = req.params.userId;
     let { userData, userFollowData, userPost } = await getUserHelper(userId);
-    if(userData){
+    if (userData) {
       res.status(200).json({ userData, userFollowData, userPost });
     } else {
-      res.status(500).json({success: false})
+      res.status(500).json({ success: false });
     }
-
   } catch (error) {
     console.log("error during getUser controller : ", error);
   }
@@ -158,7 +158,9 @@ export const deletePost = async (req, res) => {
     const { publicId, postImg } = req.body;
     const deletedPost = await deletePostHelper(publicId, postImg);
     if (deletedPost.deletedCount === 0) {
-      res.status(404).json({ success: false, message: "Post not found or not deleted." });
+      res
+        .status(404)
+        .json({ success: false, message: "Post not found or not deleted." });
     } else {
       res.status(200).json({ success: true });
     }
@@ -173,5 +175,18 @@ export const getUserNameController = async (req, res) => {
   try {
   } catch (error) {
     console.log("error during getUserNameController", error);
+  }
+};
+
+// LIKE POST
+export const likePostController = async (req, res) => {
+  try {
+    const { loggedUserId, postId } = req.body;
+    const likedPost = await likePostHelper(loggedUserId, postId);
+    console.log("uhhhhhhhhhhhhhhh :", likedPost);
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log("error during likePostController :", error);
   }
 };

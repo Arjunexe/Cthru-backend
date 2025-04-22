@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser, unFollowUser, getFollowing, getUserNameController, deletePost } from "../controllers/userController.js";
+import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser, unFollowUser, getFollowing, getUserNameController, deletePost, likePostController } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -35,6 +35,9 @@ router.get("getUserNameData/:urlUsername", getUserNameController)
 
 // DELETING POST IMAGES FROM DB AND CLOUD
 router.post("/deletePost", deletePost)
+
+// LIKE POST
+router.post("/likePost", likePostController)
 
 
 export default router;
