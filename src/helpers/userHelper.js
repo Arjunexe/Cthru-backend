@@ -230,13 +230,21 @@ export const deletePostHelper = async (publicId, postImg) => {
 };
 
 // LIKE POST HELPER
-export const likePostHelper = async (loggedUserId, postId) => {
+export const likePostHelper = async (loggedUserId, postId, likeState) => {
   try {
-    const likePost = await postModel.updateOne(
-      { _id: postId },
-      { $addToSet: { like: loggedUserId } }
-    );
-    return likePost;
+    if (likeState) {
+      const unLikePost = await postModel.updateOne(
+        { _id: postId },
+        { $pull: { like: loggedUserId } }
+      );
+      return false;
+    } else {
+      const likePost = await postModel.updateOne(
+        { _id: postId },
+        { $addToSet: { like: loggedUserId } }
+      );
+      return true;
+    }
   } catch (error) {
     console.log("error during likePostHelper :", error);
   }
