@@ -179,11 +179,15 @@ export const saveImgUrlHelper = async (imgUrl, userId) => {
 //GET IMAGE URL NOT BASED ON _ID
 export const getImgURL = async () => {
   try {
+
+    const shuffle = (array) =>
+      array.sort(() => Math.random() - 0.5);
+
     const post = await postModel
       .find()
       .populate("userId", "Username ProfilePic")
-      .sort({ createdAt: -1 });
-    return post;
+      // .sort({ createdAt: -1 });
+    return shuffle(post);
   } catch (error) {
     console.log("error during getImgURL");
   }

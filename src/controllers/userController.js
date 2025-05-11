@@ -182,13 +182,13 @@ export const getUserNameController = async (req, res) => {
 export const likePostController = async (req, res) => {
   try {
     const { loggedUserId, postId, likeState } = req.body;
-    const likedOrUnliked = await likePostHelper(
+    const postLiked = await likePostHelper(
       loggedUserId,
       postId,
       likeState
     );
 
-    if (likedOrUnliked) {
+    if (postLiked) {
       res.status(200).json({
         success: true,
         liked: true,
