@@ -179,14 +179,12 @@ export const saveImgUrlHelper = async (imgUrl, userId) => {
 //GET IMAGE URL NOT BASED ON _ID
 export const getImgURL = async () => {
   try {
-
-    const shuffle = (array) =>
-      array.sort(() => Math.random() - 0.5);
+    const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
     const post = await postModel
       .find()
-      .populate("userId", "Username ProfilePic")
-      // .sort({ createdAt: -1 });
+      .populate("userId", "Username ProfilePic");
+    // .sort({ createdAt: -1 });
     return shuffle(post);
   } catch (error) {
     console.log("error during getImgURL");
@@ -236,16 +234,26 @@ export const deletePostHelper = async (publicId, postImg) => {
 // LIKE POST HELPER
 export const likePostHelper = async (loggedUserId, postId, likeState) => {
   try {
+    // UNLIKE A POST
     if (likeState) {
       const unLikePost = await postModel.updateOne(
         { _id: postId },
         { $pull: { like: loggedUserId } }
       );
+      const unLikeUserSide = await userModel.updateOne(
+        { _id: loggedUserId },
+        { $pull: { likes: postId } }
+      );
       return false;
+    // LIKE A POST
     } else {
       const likePost = await postModel.updateOne(
         { _id: postId },
         { $addToSet: { like: loggedUserId } }
+      );
+      const likeUserSide = await userModel.updateOne(
+        { _id: loggedUserId },
+        { $addToSet: { likes: postId } }
       );
       return true;
     }
