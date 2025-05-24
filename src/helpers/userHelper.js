@@ -263,9 +263,19 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
 };
 
 // COMMENT A POST
-export const commentPostHelper = async (comment) => {
+export const commentPostHelper = async (comment, commentId) => {
   try {
-    
+    const { postId, loggedUserId } = commentId;
+    console.log(postId, loggedUserId);
+
+    const commentPosted = await postModel.updateOne(
+      { _id: postId },
+      {
+        $push: {
+          comment: { user: loggedUserId, text: comment, createAt: new Date() },
+        },
+      }
+    );
   } catch (error) {
     console.log("error during commentPostHelper: ", error);
   }

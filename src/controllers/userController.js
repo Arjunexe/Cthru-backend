@@ -204,8 +204,8 @@ export const likePostController = async (req, res) => {
 // COMMENT POST
 export const commentPostController = async (req, res) => {
   try {
-    const { comment } = req.body;
-    const postCommented = await commentPostHelper(comment);
+    const { comment, commentId } = req.body;
+    const postCommented = await commentPostHelper(comment, commentId);
   } catch (error) {
     console.log("error during commentPostController: ", error);
   }
