@@ -245,7 +245,7 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
         { $pull: { likes: postId } }
       );
       return false;
-    // LIKE A POST
+      // LIKE A POST
     } else {
       const likePost = await postModel.updateOne(
         { _id: postId },
@@ -259,5 +259,14 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
     }
   } catch (error) {
     console.log("error during likePostHelper :", error);
+  }
+};
+
+// COMMENT A POST
+export const commentPostHelper = async (comment) => {
+  try {
+    
+  } catch (error) {
+    console.log("error during commentPostHelper: ", error);
   }
 };

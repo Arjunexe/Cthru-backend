@@ -10,6 +10,7 @@ import {
   getFollowingtHelper,
   deletePostHelper,
   likePostHelper,
+  commentPostHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -182,11 +183,7 @@ export const getUserNameController = async (req, res) => {
 export const likePostController = async (req, res) => {
   try {
     const { loggedUserId, postId, likeState } = req.body;
-    const postLiked = await likePostHelper(
-      loggedUserId,
-      postId,
-      likeState
-    );
+    const postLiked = await likePostHelper(loggedUserId, postId, likeState);
 
     if (postLiked) {
       res.status(200).json({
@@ -201,5 +198,15 @@ export const likePostController = async (req, res) => {
     }
   } catch (error) {
     console.log("error during likePostController :", error);
+  }
+};
+
+// COMMENT POST
+export const commentPostController = async (req, res) => {
+  try {
+    const { comment } = req.body;
+    const postCommented = await commentPostHelper(comment);
+  } catch (error) {
+    console.log("error during commentPostController: ", error);
   }
 };
