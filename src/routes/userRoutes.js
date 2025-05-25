@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser, unFollowUser, getFollowing, getUserNameController, deletePost, likePostController, commentPostController } from "../controllers/userController.js";
+import { getUser, login, signup, imgUrl, getImgUrl, profileImgUrl, followUser, unFollowUser, getFollowing, getUserNameController, deletePost, likePostController, commentPostController, getCommentList } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -42,5 +42,7 @@ router.post("/likePost", likePostController)
 // COMMENT POST
 router.post("/commentPost", commentPostController)
 
+// GET COMMENT LIST
+router.get("/getCommentList", getCommentList)
 
 export default router;

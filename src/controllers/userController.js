@@ -11,6 +11,7 @@ import {
   deletePostHelper,
   likePostHelper,
   commentPostHelper,
+  getCommentListHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -201,12 +202,28 @@ export const likePostController = async (req, res) => {
   }
 };
 
-// COMMENT POST
+// SAVE COMMENT CONTROLLER
 export const commentPostController = async (req, res) => {
   try {
     const { comment, commentId } = req.body;
     const postCommented = await commentPostHelper(comment, commentId);
   } catch (error) {
     console.log("error during commentPostController: ", error);
+  }
+};
+
+// GET COMMENT LIST
+export const getCommentList = async (req, res) => {
+  try {
+    const { postId } = req.query;
+    const commentList = await getCommentListHelper(postId);
+    if (!commentList) {
+      return;
+    }
+    console.log(commentList);
+    
+    res.status(200).json({ commentList });
+  } catch (error) {
+    console.log("error during getCommentList: ", error);
   }
 };

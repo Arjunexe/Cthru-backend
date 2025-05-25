@@ -262,11 +262,10 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
   }
 };
 
-// COMMENT A POST
+// SAVE COMMENT HELPER
 export const commentPostHelper = async (comment, commentId) => {
   try {
     const { postId, loggedUserId } = commentId;
-    console.log(postId, loggedUserId);
 
     const commentPosted = await postModel.updateOne(
       { _id: postId },
@@ -278,5 +277,21 @@ export const commentPostHelper = async (comment, commentId) => {
     );
   } catch (error) {
     console.log("error during commentPostHelper: ", error);
+  }
+};
+
+// GET COMMENT LIST HELPER
+export const getCommentListHelper = async (postId) => {
+  try {
+    const post = await postModel
+      .findById(postId)
+      .populate("comment.user", "Username ProfilePic");
+    if (!post) {
+      return false;
+    }
+
+    return post.comment;
+  } catch (error) {
+    console.log("error during getCommentHelper: ", error);
   }
 };
