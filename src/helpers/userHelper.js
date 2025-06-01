@@ -271,7 +271,7 @@ export const commentPostHelper = async (comment, commentId) => {
       { _id: postId },
       {
         $push: {
-          comment: { user: loggedUserId, text: comment, createAt: new Date() },
+          comment: { user: loggedUserId, text: comment, createdAt: new Date() },
         },
       }
     );
