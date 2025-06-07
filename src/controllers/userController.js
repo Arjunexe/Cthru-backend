@@ -202,28 +202,48 @@ export const likePostController = async (req, res) => {
   }
 };
 
-// SAVE COMMENT CONTROLLER
-export const commentPostController = async (req, res) => {
-  try {
-    const { comment, commentId } = req.body;
-    const postCommented = await commentPostHelper(comment, commentId);
-  } catch (error) {
-    console.log("error during commentPostController: ", error);
-  }
-};
-
 // GET COMMENT LIST
 export const getCommentList = async (req, res) => {
   try {
     const { postId } = req.query;
     const commentList = await getCommentListHelper(postId);
     if (!commentList) {
-      return;
+      return res.status(404).json({ message: "No comments found" });
     }
-    console.log(commentList);
-    
+    // console.log(commentList);
+
     res.status(200).json({ commentList });
   } catch (error) {
     console.log("error during getCommentList: ", error);
   }
 };
+
+// POST COMMENT CONTROLLER
+export const commentPostController = async (req, res) => {
+  try {
+    const { comment, commentId } = req.body;
+    const postCommented = await commentPostHelper(comment, commentId);
+    if (!postCommented) {
+      return res.status(400).json({ message: "Failed to post comment" });
+    }
+    res.status(201).json({ message: "Comment posted", comment: postCommented });
+  } catch (error) {
+    console.log("error during commentPostController: ", error);
+  }
+};
+
+// export const commentPostController = async (req, res) => {
+//   try {
+//     const { comment, commentId } = req.body;
+//     const postCommented = await commentPostHelper(comment, commentId);
+
+//     if (!postCommented) {
+//       return res.status(400).json({ message: "Failed to post comment" });
+//     }
+
+//     res.status(201).json({ message: "Comment posted", comment: postCommented });
+//   } catch (error) {
+//     console.error("error during commentPostController:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };

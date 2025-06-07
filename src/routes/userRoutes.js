@@ -39,10 +39,10 @@ router.post("/deletePost", deletePost)
 // LIKE POST
 router.post("/likePost", likePostController)
 
-// COMMENT POST
-router.post("/commentPost", commentPostController)
-
 // GET COMMENT LIST
 router.get("/getCommentList", getCommentList)
+
+// POST A COMMENT
+router.post("/commentPost", commentPostController)
 
 export default router;

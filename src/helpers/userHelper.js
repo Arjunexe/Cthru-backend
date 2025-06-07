@@ -262,24 +262,6 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
   }
 };
 
-// SAVE COMMENT HELPER
-export const commentPostHelper = async (comment, commentId) => {
-  try {
-    const { postId, loggedUserId } = commentId;
-
-    const commentPosted = await postModel.updateOne(
-      { _id: postId },
-      {
-        $push: {
-          comment: { user: loggedUserId, text: comment, createdAt: new Date() },
-        },
-      }
-    );
-  } catch (error) {
-    console.log("error during commentPostHelper: ", error);
-  }
-};
-
 // GET COMMENT LIST HELPER
 export const getCommentListHelper = async (postId) => {
   try {
@@ -293,5 +275,27 @@ export const getCommentListHelper = async (postId) => {
     return post.comment;
   } catch (error) {
     console.log("error during getCommentHelper: ", error);
+    throw error;
+  }
+};
+
+// POST COMMENT HELPER
+export const commentPostHelper = async (comment, commentId) => {
+  try {
+    const { postId, loggedUserId } = commentId;
+
+    const commentPosted = await postModel.updateOne(
+      { _id: postId },
+      {
+        $push: {
+          comment: { user: loggedUserId, text: comment, createdAt: new Date() },
+        },
+      }
+    );
+    // return commentPosted.modifiedCount > 0;
+    return commentPosted;
+  } catch (error) {
+    console.log("error during commentPostHelper: ", error);
+    throw error;
   }
 };
