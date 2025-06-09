@@ -268,11 +268,16 @@ export const getCommentListHelper = async (postId) => {
     const post = await postModel
       .findById(postId)
       .populate("comment.user", "Username ProfilePic");
+      // .populate({
+      //   path: "comment.user",
+      //   select: "Username ProfilePic",
+      //   options: { limit: 10 }, // Limit to 10 comments
+      // });
     if (!post) {
       return false;
     }
 
-    return post.comment;
+    return post.comment.slice(-14)
   } catch (error) {
     console.log("error during getCommentHelper: ", error);
     throw error;
