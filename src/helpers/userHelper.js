@@ -277,7 +277,7 @@ export const getCommentListHelper = async (postId) => {
       return false;
     }
 
-    return post.comment.slice(-14)
+    return post.comment.slice(-20)
   } catch (error) {
     console.log("error during getCommentHelper: ", error);
     throw error;
