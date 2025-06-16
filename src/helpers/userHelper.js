@@ -263,21 +263,22 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
 };
 
 // GET COMMENT LIST HELPER
-export const getCommentListHelper = async (postId) => {
+export const getCommentListHelper = async (postId, pageNum) => {
   try {
+    const limit = 15
+    const skip = (pageNum - 1) * limit
+    console.log("postId: ", postId);
+    console.log("nummmmmmm :", pageNum);
+    
+    
     const post = await postModel
       .findById(postId)
       .populate("comment.user", "Username ProfilePic");
-      // .populate({
-      //   path: "comment.user",
-      //   select: "Username ProfilePic",
-      //   options: { limit: 10 }, // Limit to 10 comments
-      // });
     if (!post) {
       return false;
     }
 
-    return post.comment.slice(-20)
+    return post.comment.slice(skip, skip + limit)
   } catch (error) {
     console.log("error during getCommentHelper: ", error);
     throw error;
