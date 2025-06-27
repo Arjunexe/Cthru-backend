@@ -267,10 +267,7 @@ export const getCommentListHelper = async (postId, pageNum) => {
   try {
     const limit = 15
     const skip = (pageNum - 1) * limit
-    console.log("postId: ", postId);
-    console.log("nummmmmmm :", pageNum);
-    
-    
+
     const post = await postModel
       .findById(postId)
       .populate("comment.user", "Username ProfilePic");
@@ -298,7 +295,7 @@ export const commentPostHelper = async (comment, commentId) => {
         },
       }
     );
-    // return commentPosted.modifiedCount > 0;
+    // return commentPosted.modifiedCount > 0; || doubt ||
     return commentPosted;
   } catch (error) {
     console.log("error during commentPostHelper: ", error);

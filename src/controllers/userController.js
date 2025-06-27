@@ -206,15 +206,15 @@ export const likePostController = async (req, res) => {
 export const getCommentList = async (req, res) => {
   try {
     const { postId, pageNum } = req.query;
-     console.log("pageeeeCunt :", pageNum);
+    //  console.log("pageeeeCunt :", pageNum);
 
     const commentList = await getCommentListHelper(postId, pageNum);
     if (!commentList) {
       return res.status(404).json({ message: "No comments found" });
     }
     // console.log(commentList);
-    console.log("somehow :", commentList);
-    
+    // console.log("somehow :", commentList);
+
     res.status(200).json({ commentList });
   } catch (error) {
     console.log("error during getCommentList: ", error);
