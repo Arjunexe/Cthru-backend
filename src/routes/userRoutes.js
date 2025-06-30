@@ -14,6 +14,7 @@ import {
   likePostController,
   commentPostController,
   getCommentList,
+  deleteFromCloudController,
 } from "../controllers/userController.js";
 
 const router = Router();
@@ -45,11 +46,14 @@ router.post("/unFollowUser", unFollowUser);
 // GET FOLLOWING USER DATA
 router.get("/getFollowing/:userId", getFollowing);
 
-// GET USER BASED ON USER NAME
-router.get("getUserNameData/:urlUsername", getUserNameController);
+// GET USER BASED ON USER NAME || qeustionable also was missing a slash
+router.get("/getUserNameData/:urlUsername", getUserNameController);
 
 // DELETING POST IMAGES FROM DB AND CLOUD
 router.post("/deletePost", deletePost);
+
+// DELETE PROFIE PIC ONLY FROM CLOUD
+router.post("/deleteFromCloud", deleteFromCloudController)
 
 // LIKE POST
 router.post("/likePost", likePostController);

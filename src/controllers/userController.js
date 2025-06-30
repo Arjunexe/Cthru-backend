@@ -12,6 +12,7 @@ import {
   likePostHelper,
   commentPostHelper,
   getCommentListHelper,
+  deleteFromCloudHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -168,6 +169,22 @@ export const deletePost = async (req, res) => {
     }
   } catch (error) {
     console.log("error during deletPost: ", error);
+  }
+};
+
+// DELTE PROFILE PIC ONY FROM CLOUD
+export const deleteFromCloudController = async (req, res) => {
+  try {
+    const { publicId } = req.body;
+    const deletedFromCloud = await deleteFromCloudHelper(publicId);
+    if (!deletedFromCloud) {
+      return res
+        .status(400)
+        .json({ message: "Failed to delete from the cloud" });
+    }
+    res.status(201).json({ message: "Comment posted", deletedFromCloud });
+  } catch (error) {
+    console.log("error during deleteFromCloudController: ", error);
   }
 };
 

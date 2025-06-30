@@ -231,6 +231,21 @@ export const deletePostHelper = async (publicId, postImg) => {
   }
 };
 
+// DELETE PROFILE PIC FROM ONLY CLOUD
+export const deleteFromCloudHelper = async (publicId) => {
+  try {
+      const deleteFromCloud = await cloudinary.uploader.destroy(publicId);
+      if (deleteFromCloud.result !== "ok") {
+      console.log("Post from Cloud not deleted");
+    } else {
+      return true;
+    }
+  } catch (error) {
+    console.log("error during deleteFromCloudHelper: ", error);
+    
+  }
+}
+
 // LIKE POST HELPER
 export const likePostHelper = async (loggedUserId, postId, likeState) => {
   try {
