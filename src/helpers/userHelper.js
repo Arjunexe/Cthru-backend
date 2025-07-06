@@ -317,3 +317,14 @@ export const commentPostHelper = async (comment, commentId) => {
     throw error;
   }
 };
+
+
+// SAVE POST
+export const savePostController = async (loggedUserId, postId) => {
+  try {
+    const postSavedUser = await userModel
+  } catch (error) {
+    console.log("error during savePostController: ", error);
+    
+  }
+}

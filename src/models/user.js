@@ -34,6 +34,12 @@ const userSchema = new Schema({
     type: String,
     unique: true
   },
+  
+  saved:{
+    type: String,
+    unique: true
+  }
+
 });
 userSchema.pre("save", async function () {
   this.Password = await bcrypt.hash(this.Password, 12);

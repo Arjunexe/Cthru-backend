@@ -23,6 +23,15 @@ const postSchema = new Schema(
       ],
     },
 
+    saved:{
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "User"
+        }
+      ]
+    },
+
     comment: [
       {
         user: {
@@ -32,7 +41,7 @@ const postSchema = new Schema(
         },
         text: {
           type: String,
-          required: true,
+          required: true, 
         },
         createdAt: {
           type: Date,

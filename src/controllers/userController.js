@@ -252,18 +252,12 @@ export const commentPostController = async (req, res) => {
   }
 };
 
-// export const commentPostController = async (req, res) => {
-//   try {
-//     const { comment, commentId } = req.body;
-//     const postCommented = await commentPostHelper(comment, commentId);
-
-//     if (!postCommented) {
-//       return res.status(400).json({ message: "Failed to post comment" });
-//     }
-
-//     res.status(201).json({ message: "Comment posted", comment: postCommented });
-//   } catch (error) {
-//     console.error("error during commentPostController:", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
+export const savePost = async (req,res) => {
+  try {
+    const {loggedUserId, postId} = req.body;
+    const postSaved = await savePostController(loggedUserId, postId)    
+  } catch (error) {
+    console.log("error during savePost: ", error);
+    
+  }
+}
