@@ -234,17 +234,16 @@ export const deletePostHelper = async (publicId, postImg) => {
 // DELETE PROFILE PIC FROM ONLY CLOUD
 export const deleteFromCloudHelper = async (publicId) => {
   try {
-      const deleteFromCloud = await cloudinary.uploader.destroy(publicId);
-      if (deleteFromCloud.result !== "ok") {
+    const deleteFromCloud = await cloudinary.uploader.destroy(publicId);
+    if (deleteFromCloud.result !== "ok") {
       console.log("Post from Cloud not deleted");
     } else {
       return true;
     }
   } catch (error) {
     console.log("error during deleteFromCloudHelper: ", error);
-    
   }
-}
+};
 
 // LIKE POST HELPER
 export const likePostHelper = async (loggedUserId, postId, likeState) => {
@@ -280,8 +279,8 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
 // GET COMMENT LIST HELPER
 export const getCommentListHelper = async (postId, pageNum) => {
   try {
-    const limit = 15
-    const skip = (pageNum - 1) * limit
+    const limit = 15;
+    const skip = (pageNum - 1) * limit;
 
     const post = await postModel
       .findById(postId)
@@ -290,7 +289,7 @@ export const getCommentListHelper = async (postId, pageNum) => {
       return false;
     }
 
-    return post.comment.slice(skip, skip + limit)
+    return post.comment.slice(skip, skip + limit);
   } catch (error) {
     console.log("error during getCommentHelper: ", error);
     throw error;
@@ -317,14 +316,23 @@ export const commentPostHelper = async (comment, commentId) => {
     throw error;
   }
 };
-
-
+ 
 // SAVE POST
 export const savePostController = async (loggedUserId, postId) => {
   try {
-    const postSavedUser = await userModel
+    const postSavedUser = await postModel.updateOne(
+      { _id: postId },
+      {
+        $addToSet: { saved: loggedUserId },
+      }
+    );
+    const userSavedPost = await userModel.updateOne(
+      { _id: loggedUserId },
+      { $addToSet: { saved: postId } }
+    );
+    return true;
   } catch (error) {
     console.log("error during savePostController: ", error);
-    
+    throw error;
   }
-}
+};

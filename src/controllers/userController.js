@@ -13,6 +13,7 @@ import {
   commentPostHelper,
   getCommentListHelper,
   deleteFromCloudHelper,
+  savePostController,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -252,12 +253,23 @@ export const commentPostController = async (req, res) => {
   }
 };
 
-export const savePost = async (req,res) => {
+export const savePost = async (req, res) => {
   try {
-    const {loggedUserId, postId} = req.body;
-    const postSaved = await savePostController(loggedUserId, postId)    
+    const { loggedUserId, postId } = req.body;
+    const postSaved = await savePostController(loggedUserId, postId);
+
+    if (postSaved) {
+      res.status(200).json({
+        success: true,
+        saved: true,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        saved: false,
+      });
+    }
   } catch (error) {
     console.log("error during savePost: ", error);
-    
-  }
-}
+  } 
+};
