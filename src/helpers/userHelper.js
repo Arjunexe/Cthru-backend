@@ -249,6 +249,8 @@ export const deleteFromCloudHelper = async (publicId) => {
 export const likePostHelper = async (loggedUserId, postId, likeState) => {
   try {
     // UNLIKE A POST
+    
+    
     if (likeState) {
       const unLikePost = await postModel.updateOne(
         { _id: postId },
@@ -257,7 +259,7 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
       const unLikeUserSide = await userModel.updateOne(
         { _id: loggedUserId },
         { $pull: { likes: postId } }
-      );
+      ); 
       return false;
       // LIKE A POST
     } else {
