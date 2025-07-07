@@ -249,8 +249,7 @@ export const deleteFromCloudHelper = async (publicId) => {
 export const likePostHelper = async (loggedUserId, postId, likeState) => {
   try {
     // UNLIKE A POST
-    
-    
+
     if (likeState) {
       const unLikePost = await postModel.updateOne(
         { _id: postId },
@@ -259,7 +258,7 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
       const unLikeUserSide = await userModel.updateOne(
         { _id: loggedUserId },
         { $pull: { likes: postId } }
-      ); 
+      );
       return false;
       // LIKE A POST
     } else {
@@ -318,21 +317,42 @@ export const commentPostHelper = async (comment, commentId) => {
     throw error;
   }
 };
- 
+
 // SAVE POST
 export const savePostController = async (loggedUserId, postId) => {
   try {
-    const postSavedUser = await postModel.updateOne(
-      { _id: postId },
-      {
-        $addToSet: { saved: loggedUserId },
-      }
-    );
-    const userSavedPost = await userModel.updateOne(
-      { _id: loggedUserId },
-      { $addToSet: { saved: postId } }
-    );
-    return true;
+    const alreadySaved = await userModel.findOne({
+      _id: loggedUserId,
+      saved: postId,
+    });
+
+    if (alreadySaved) {
+      // Post is already saved -- Unsave
+      const postUnsavedUser = await postModel.updateOne(
+        { _id: postId },
+        { $pull: { saved: loggedUserId } }
+      );
+
+      const userSavedPost = await userModel.updateOne(
+        { _id: loggedUserId },
+        { $pull: { saved: postId } }
+      );
+      return false;
+    } else {
+      // Post is not saved -- Save
+      const postSavedUser = await postModel.updateOne(
+        { _id: postId },
+        {
+          $addToSet: { saved: loggedUserId },
+        }
+      );
+      const userSavedPost = await userModel.updateOne(
+        { _id: loggedUserId },
+        { $addToSet: { saved: postId } }
+      );
+      return true;
+    }
+
   } catch (error) {
     console.log("error during savePostController: ", error);
     throw error;
