@@ -17,6 +17,7 @@ import {
   deleteFromCloudController,
   savePost,
   fetchSavedPostController,
+  fetchLikedController,
 } from "../controllers/userController.js";
 
 const router = Router();
@@ -57,7 +58,7 @@ router.post("/deletePost", deletePost);
 // DELETE PROFIE PIC ONLY FROM CLOUD
 router.post("/deleteFromCloud", deleteFromCloudController)
 
-// LIKE POST
+// LIKE OR UNLIKE POST 
 router.post("/likePost", likePostController);
 
 // GET COMMENT LIST
@@ -71,5 +72,7 @@ router.post("/savePost", savePost)
 
 // FETCH SAVED POST
 router.post("/fetchPost", fetchSavedPostController)
+
+router.post("/fetchLikedPost", fetchLikedController)
 
 export default router;

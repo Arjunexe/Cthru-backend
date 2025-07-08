@@ -290,3 +290,18 @@ export const fetchSavedPostController = async (req, res) => {
       .json({ message: "Server error while fetching saved posts" });
   }
 };
+
+// FETCH LIKED POST
+export const fetchLikedController = async (req, res) => {
+  
+  const {loggedUserId } = req.body
+  console.log("I am lowkey done: ", loggedUserId);
+  
+
+  try {
+    
+  } catch (error) {
+    console.log("error during fetchLikedPost: ", error);
+    
+  }
+}

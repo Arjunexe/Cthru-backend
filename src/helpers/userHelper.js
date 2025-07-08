@@ -76,9 +76,8 @@ export const getUserHelper = async (userInfo) => {
     let userData = await userModel.findOne({ _id: userId }, { Password: 0 });
     let userFollowData = await Follow.findOne({ userId: userId });
     let userPost = await postModel.find({ userId }).exec();
-    console.log("gggggggggggggggggggggg", userPost);
 
-    return { userData, userFollowData, userPost };
+     return { userData, userFollowData, userPost };
   } catch (error) {
     console.log("error during getUserHelper :", error);
   }
