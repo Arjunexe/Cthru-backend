@@ -30,16 +30,23 @@ const userSchema = new Schema({
     required: true,
   },
 
-  likes: {
-    type: String,
-    unique: true
+  like: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
   },
-  
-  saved:{
-    type: String,
-    unique: true
-  }
 
+  saved: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+  },
 });
 userSchema.pre("save", async function () {
   this.Password = await bcrypt.hash(this.Password, 12);

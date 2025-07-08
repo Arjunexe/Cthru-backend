@@ -16,6 +16,7 @@ import {
   getCommentList,
   deleteFromCloudController,
   savePost,
+  fetchSavedPostController,
 } from "../controllers/userController.js";
 
 const router = Router();
@@ -65,6 +66,10 @@ router.get("/getCommentList", getCommentList);
 // POST A COMMENT
 router.post("/commentPost", commentPostController);
 
+// SAVE A POST
 router.post("/savePost", savePost)
+
+// FETCH SAVED POST
+router.post("/fetchPost", fetchSavedPostController)
 
 export default router;

@@ -319,7 +319,7 @@ export const commentPostHelper = async (comment, commentId) => {
 };
 
 // SAVE POST
-export const savePostController = async (loggedUserId, postId) => {
+export const savePostHelper = async (loggedUserId, postId) => {
   try {
     const alreadySaved = await userModel.findOne({
       _id: loggedUserId,
@@ -354,7 +354,24 @@ export const savePostController = async (loggedUserId, postId) => {
     }
 
   } catch (error) {
-    console.log("error during savePostController: ", error);
+    console.log("error during savePostHelper: ", error);
     throw error;
   }
 };
+
+
+// FETCH SAVED POST
+export const fetchSavedPostHelper = async (loggedUserId) => {
+  try {
+        const savedPost = await userModel.find( 
+          {_id: loggedUserId}
+        )   
+        console.log("its the user dude: ", savedPost);
+        
+    
+  } catch (error) {
+    console.log("error during fetchSavedPostHelper: ", error);
+    
+    
+  }
+}

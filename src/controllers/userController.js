@@ -13,7 +13,8 @@ import {
   commentPostHelper,
   getCommentListHelper,
   deleteFromCloudHelper,
-  savePostController,
+  savePostHelper,
+  fetchSavedPostHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -252,11 +253,11 @@ export const commentPostController = async (req, res) => {
     console.log("error during commentPostController: ", error);
   }
 };
-
+// SAVE POST
 export const savePost = async (req, res) => {
   try {
     const { loggedUserId, postId } = req.body;
-    const postSaved = await savePostController(loggedUserId, postId);
+    const postSaved = await savePostHelper(loggedUserId, postId); 
 
     if (postSaved) {
       res.status(200).json({
@@ -273,3 +274,15 @@ export const savePost = async (req, res) => {
     console.log("error during savePost: ", error);
   } 
 };
+
+// FETCH SAVED POST
+export const fetchSavedPostController = async (req, res ) => {
+  try {
+    const {loggedUserId} = req.body;
+   const savedPosts = await fetchSavedPostHelper(loggedUserId)
+  } catch (error) {
+    console.log("error during fetchSavedPostController: ", error);
+    
+    
+  }
+}
