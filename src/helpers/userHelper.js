@@ -76,7 +76,7 @@ export const getUserHelper = async (userInfo) => {
     let userData = await userModel.findOne({ _id: userId }, { Password: 0 });
     let userFollowData = await Follow.findOne({ userId: userId });
     let userPost = await postModel.find({ userId }).exec();
-    console.log("gggggggggggggggggggggg", userId);
+    console.log("gggggggggggggggggggggg", userPost);
 
     return { userData, userFollowData, userPost };
   } catch (error) {
@@ -257,8 +257,9 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
       );
       const unLikeUserSide = await userModel.updateOne(
         { _id: loggedUserId },
-        { $pull: { likes: postId } }
+        { $pull: { like: postId } }
       );
+
       return false;
       // LIKE A POST
     } else {
@@ -266,10 +267,12 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
         { _id: postId },
         { $addToSet: { like: loggedUserId } }
       );
+
       const likeUserSide = await userModel.updateOne(
         { _id: loggedUserId },
-        { $addToSet: { likes: postId } }
+        { $addToSet: { like: postId } }
       );
+
       return true;
     }
   } catch (error) {
@@ -352,26 +355,20 @@ export const savePostHelper = async (loggedUserId, postId) => {
       );
       return true;
     }
-
   } catch (error) {
     console.log("error during savePostHelper: ", error);
     throw error;
   }
 };
 
-
 // FETCH SAVED POST
 export const fetchSavedPostHelper = async (loggedUserId) => {
   try {
-        const savedPost = await userModel.find( 
-          {_id: loggedUserId}
-        )   
-        console.log("its the user dude: ", savedPost);
-        
-    
+    // const savedPost = await userModel.find({ _id: loggedUserId });
+    const savedPost = await postModel.find({saved: loggedUserId});
+    return savedPost;
+    console.log("its the user dude: ", savedPost);
   } catch (error) {
     console.log("error during fetchSavedPostHelper: ", error);
-    
-    
   }
-}
+};

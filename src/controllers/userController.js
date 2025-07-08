@@ -257,7 +257,7 @@ export const commentPostController = async (req, res) => {
 export const savePost = async (req, res) => {
   try {
     const { loggedUserId, postId } = req.body;
-    const postSaved = await savePostHelper(loggedUserId, postId); 
+    const postSaved = await savePostHelper(loggedUserId, postId);
 
     if (postSaved) {
       res.status(200).json({
@@ -272,17 +272,21 @@ export const savePost = async (req, res) => {
     }
   } catch (error) {
     console.log("error during savePost: ", error);
-  } 
+  }
 };
 
 // FETCH SAVED POST
-export const fetchSavedPostController = async (req, res ) => {
+export const fetchSavedPostController = async (req, res) => {
   try {
-    const {loggedUserId} = req.body;
-   const savedPosts = await fetchSavedPostHelper(loggedUserId)
+    const { loggedUserId } = req.body;
+    const savedPosts = await fetchSavedPostHelper(loggedUserId);
+
+      return res.status(200).json({ savedPosts });
+
   } catch (error) {
     console.log("error during fetchSavedPostController: ", error);
-    
-    
+    return res
+      .status(500)
+      .json({ message: "Server error while fetching saved posts" });
   }
-}
+};
