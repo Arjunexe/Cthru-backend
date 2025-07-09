@@ -77,7 +77,7 @@ export const getUserHelper = async (userInfo) => {
     let userFollowData = await Follow.findOne({ userId: userId });
     let userPost = await postModel.find({ userId }).exec();
 
-     return { userData, userFollowData, userPost };
+    return { userData, userFollowData, userPost };
   } catch (error) {
     console.log("error during getUserHelper :", error);
   }
@@ -364,10 +364,21 @@ export const savePostHelper = async (loggedUserId, postId) => {
 export const fetchSavedPostHelper = async (loggedUserId) => {
   try {
     // const savedPost = await userModel.find({ _id: loggedUserId });
-    const savedPost = await postModel.find({saved: loggedUserId});
+    const savedPost = await postModel.find({ saved: loggedUserId });
     return savedPost;
     console.log("its the user dude: ", savedPost);
   } catch (error) {
     console.log("error during fetchSavedPostHelper: ", error);
+  }
+};
+
+// FETCH LIKED POST
+export const fetchLikedHelper = async (loggedUserId) => {
+  try {
+    const likedPost = await postModel.find({like: loggedUserId})
+    return likedPost;
+  } catch (error) {
+    console.log("error during fetchLikeHelper: ", error);
+    throw error;
   }
 };

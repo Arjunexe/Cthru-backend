@@ -15,6 +15,7 @@ import {
   deleteFromCloudHelper,
   savePostHelper,
   fetchSavedPostHelper,
+  fetchLikedHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -281,8 +282,7 @@ export const fetchSavedPostController = async (req, res) => {
     const { loggedUserId } = req.body;
     const savedPosts = await fetchSavedPostHelper(loggedUserId);
 
-      return res.status(200).json({ savedPosts });
-
+    return res.status(200).json({ savedPosts });
   } catch (error) {
     console.log("error during fetchSavedPostController: ", error);
     return res
@@ -293,15 +293,11 @@ export const fetchSavedPostController = async (req, res) => {
 
 // FETCH LIKED POST
 export const fetchLikedController = async (req, res) => {
-  
-  const {loggedUserId } = req.body
-  console.log("I am lowkey done: ", loggedUserId);
-  
-
   try {
-    
+    const { loggedUserId } = req.body;
+    const fetchedLikedPost = await fetchLikedHelper(loggedUserId);
+    return res.status(200).json({ fetchedLikedPost }) 
   } catch (error) {
     console.log("error during fetchLikedPost: ", error);
-    
   }
-}
+};
