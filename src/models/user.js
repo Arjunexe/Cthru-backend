@@ -47,6 +47,16 @@ const userSchema = new Schema({
       },
     ],
   },
+
+  blocked: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default:[],
+  },
 });
 userSchema.pre("save", async function () {
   this.Password = await bcrypt.hash(this.Password, 12);

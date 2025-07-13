@@ -149,7 +149,7 @@ export const getFollowingtHelper = async (userId) => {
 
       const followingUser = await userModel.find(
         { _id: { $in: followingUserData } },
-        { Username: 1, _id: 0 }
+        { Username: 1, ProfilePic: 1, _id: 0 }
       );
       return followingUser;
     }
