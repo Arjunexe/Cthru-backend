@@ -17,6 +17,7 @@ import {
   fetchSavedPostHelper,
   fetchLikedHelper,
   blockUserHelper,
+  fetchBlockedHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -113,7 +114,6 @@ export const getFollowing = async (req, res) => {
   try {
     const userId = req.params.userId;
     const followingData = await getFollowingtHelper(userId);
-    console.log("hopefully it the details :", followingData);
     if (followingData) {
       res.status(200).json({ followingData });
     } else {
@@ -325,5 +325,17 @@ export const blockUserController = async (req, res) => {
       success: false,
       message: "Internal server error",
     });
-  }
+  } 
 };
+
+// FETCH BLOCKED LIST
+export const fetchBlockedUserController = async (req,res) => {
+  try {
+  const { loggedUserId } = req.body;
+  const blockedList = await fetchBlockedHelper(loggedUserId)
+    return res.status(200).json({ blockedList });
+  } catch (error) {
+   console.log("error during fetchBlockedUserController: ", error);
+    
+  }
+}

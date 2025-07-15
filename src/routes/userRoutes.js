@@ -19,6 +19,7 @@ import {
   fetchSavedPostController,
   fetchLikedController,
   blockUserController,
+  fetchBlockedUserController,
 } from "../controllers/userController.js";
 
 const router = Router();
@@ -78,5 +79,8 @@ router.post("/fetchLikedPost", fetchLikedController)
 
 // BLOCK A USER 
 router.post("/blockUser", blockUserController)
+
+// FETCH BLOCKED LIST
+router.post("/fetchBlockedUsers", fetchBlockedUserController)
 
 export default router;

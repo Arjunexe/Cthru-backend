@@ -366,7 +366,6 @@ export const fetchSavedPostHelper = async (loggedUserId) => {
     // const savedPost = await userModel.find({ _id: loggedUserId });
     const savedPost = await postModel.find({ saved: loggedUserId });
     return savedPost;
-    console.log("its the user dude: ", savedPost);
   } catch (error) {
     console.log("error during fetchSavedPostHelper: ", error);
   }
@@ -410,3 +409,15 @@ export const blockUserHelper = async (loggedUserId, postUserId) => {
     throw error;
   }
 };
+
+// FETCH BLOCKED USERS
+export const fetchBlockedHelper = async(loggedUserId) =>{
+  try {
+   const blockedList = await userModel.findById(loggedUserId).populate('blocked', 'Username ProfilePic');
+
+   return blockedList;
+  } catch (error) {
+   console.log("error during fetchBlockedHelper: ", error);
+   throw error; 
+  }
+}
