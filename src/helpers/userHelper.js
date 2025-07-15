@@ -375,7 +375,7 @@ export const fetchSavedPostHelper = async (loggedUserId) => {
 // FETCH LIKED POST
 export const fetchLikedHelper = async (loggedUserId) => {
   try {
-    const likedPost = await postModel.find({like: loggedUserId})
+    const likedPost = await postModel.find({ like: loggedUserId });
     return likedPost;
   } catch (error) {
     console.log("error during fetchLikeHelper: ", error);
@@ -384,11 +384,29 @@ export const fetchLikedHelper = async (loggedUserId) => {
 };
 
 // BLOCK A USER
-export const blockUserHelper = async (loggedUserId, postUserId) =>{
+export const blockUserHelper = async (loggedUserId, postUserId) => {
   try {
-   const blockedUser = await userModel.find({})
+    const alreadyBlocked = await userModel.findOne({
+      _id: loggedUserId,
+      blocked: postUserId,
+    });
+    if (alreadyBlocked) {
+      // Unblock the user
+      const userUnblocked = await userModel.updateOne(
+        { _id: loggedUserId },
+        { $pull: { blocked: postUserId } }
+      );
+      return false;
+    } else {
+      // Block the user 
+      const blockedUser = await userModel.updateOne(
+        { _id: loggedUserId },
+        { $addToSet: { blocked: postUserId } }
+      );
+      return true;
+    }
   } catch (error) {
-   console.log("error during blockUserHelper: ", error);
-   throw error; 
+    console.log("error during blockUserHelper: ", error);
+    throw error;
   }
-}
+};

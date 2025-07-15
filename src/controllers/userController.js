@@ -16,6 +16,7 @@ import {
   savePostHelper,
   fetchSavedPostHelper,
   fetchLikedHelper,
+  blockUserHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 
@@ -296,19 +297,33 @@ export const fetchLikedController = async (req, res) => {
   try {
     const { loggedUserId } = req.body;
     const fetchedLikedPost = await fetchLikedHelper(loggedUserId);
-    return res.status(200).json({ fetchedLikedPost }) 
+    return res.status(200).json({ fetchedLikedPost });
   } catch (error) {
     console.log("error during fetchLikedPost: ", error);
   }
 };
 
-// BLOCK A USER 
-export const blockUserController = async (req, res) =>{
+// BLOCK A USER
+export const blockUserController = async (req, res) => {
   try {
-        const {loggedUserId, postUserId}  = req.body
-        const blockedUser = await blockUserHelper(loggedUserId, postUserId)
+    const { loggedUserId, postUserId } = req.body;
+    const blockedUser = await blockUserHelper(loggedUserId, postUserId);
+    if (blockedUser) {
+      res.status(200).json({
+        success: true,
+        blocked: true,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        blocked: false,
+      });
+    }
   } catch (error) {
-   console.log("error during blockUserController: ", error);
-    
+    console.log("error during blockUserController: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
-}
+};
