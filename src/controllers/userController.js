@@ -301,3 +301,14 @@ export const fetchLikedController = async (req, res) => {
     console.log("error during fetchLikedPost: ", error);
   }
 };
+
+// BLOCK A USER 
+export const blockUserController = async (req, res) =>{
+  try {
+        const {loggedUserId, postUserId}  = req.body
+        const blockedUser = await blockUserHelper(loggedUserId, postUserId)
+  } catch (error) {
+   console.log("error during blockUserController: ", error);
+    
+  }
+}

@@ -382,3 +382,13 @@ export const fetchLikedHelper = async (loggedUserId) => {
     throw error;
   }
 };
+
+// BLOCK A USER
+export const blockUserHelper = async (loggedUserId, postUserId) =>{
+  try {
+   const blockedUser = await userModel.find({})
+  } catch (error) {
+   console.log("error during blockUserHelper: ", error);
+   throw error; 
+  }
+}
