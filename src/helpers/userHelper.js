@@ -73,7 +73,7 @@ export const getUserHelper = async (userInfo) => {
       console.log("JUST id is here: ", userFullId);
     }
 
-    let userData = await userModel.findOne({ _id: userId }, { Password: 0 });
+    let userData = await userModel.findOne({ _id: userId }, { Password: 0, like: 0, saved: 0, blocked: 0});
     let userFollowData = await Follow.findOne({ userId: userId });
     let userPost = await postModel.find({ userId }).exec();
 
@@ -197,13 +197,13 @@ export const saveProfilePic = async (ProfilePic, userId) => {
   try {
     const user = await userModel.findById(userId);
     if (user) {
-      const updateUserProfile = await userModel.findByIdAndUpdate(
-        userId,
-        { ProfilePic },
-        { new: true }
-      );
+      const updateUserProfile = await userModel
+        .findByIdAndUpdate(userId, { ProfilePic }, { new: true })
+        .select("-blocked -saved -like");
       // user.ProfilePic = ProfilePic
       // const savedProfilePic = await user.save()
+      console.log("updatedddddddddddddd: ", updateUserProfile);
+
       return updateUserProfile;
     } else {
       console.log("user doesn't exist");
@@ -397,7 +397,7 @@ export const blockUserHelper = async (loggedUserId, postUserId) => {
       );
       return false;
     } else {
-      // Block the user 
+      // Block the user
       const blockedUser = await userModel.updateOne(
         { _id: loggedUserId },
         { $addToSet: { blocked: postUserId } }
@@ -411,13 +411,15 @@ export const blockUserHelper = async (loggedUserId, postUserId) => {
 };
 
 // FETCH BLOCKED USERS
-export const fetchBlockedHelper = async(loggedUserId) =>{
+export const fetchBlockedHelper = async (loggedUserId) => {
   try {
-   const blockedList = await userModel.findById(loggedUserId).populate('blocked', 'Username ProfilePic');
+    const blockedList = await userModel
+      .findById(loggedUserId)
+      .populate("blocked", "Username ProfilePic");
 
-   return blockedList;
+    return blockedList;
   } catch (error) {
-   console.log("error during fetchBlockedHelper: ", error);
-   throw error; 
+    console.log("error during fetchBlockedHelper: ", error);
+    throw error;
   }
-}
+};
