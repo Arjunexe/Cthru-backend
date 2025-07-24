@@ -44,8 +44,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log(`Listening at ${process.env.PORT}`);
+    server.listen(process.env.PORT, () => {
+      console.log(`Server & Socket Listening at ${process.env.PORT}`);
     });
   })
   .catch((error) => {
