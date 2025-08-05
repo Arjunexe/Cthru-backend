@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
- 
+
 //LOGIN
 export const login = async (req, res) => {
   try {
@@ -84,10 +84,17 @@ export const followUser = async (req, res) => {
   try {
     const { userFollower, following } = req.body;
 
-    const followData = await followUserHelper(userFollower, following);
-    // console.log("its in here buddy :", followData);
-    // console.log("its in here buddy :", followData);
-    res.status(200).json({ followData });
+    const { followUser, savedNotification } = await followUserHelper(
+      userFollower,
+      following,
+    );
+    if (savedNotification) {
+      const userSocketMap = new Map();
+      userSocketMap.set(following, socket.id);
+      const socketId = userSocketMap.get(following);
+      io.to(socketId).emit("someEvent");
+    }
+    res.status(200).json({ followUser });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -325,17 +332,16 @@ export const blockUserController = async (req, res) => {
       success: false,
       message: "Internal server error",
     });
-  } 
+  }
 };
 
 // FETCH BLOCKED LIST
-export const fetchBlockedUserController = async (req,res) => {
+export const fetchBlockedUserController = async (req, res) => {
   try {
-  const { loggedUserId } = req.body;
-  const blockedList = await fetchBlockedHelper(loggedUserId)
+    const { loggedUserId } = req.body;
+    const blockedList = await fetchBlockedHelper(loggedUserId);
     return res.status(200).json({ blockedList });
   } catch (error) {
-   console.log("error during fetchBlockedUserController: ", error);
-    
+    console.log("error during fetchBlockedUserController: ", error);
   }
-}
+};

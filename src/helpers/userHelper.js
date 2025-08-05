@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import Follow from "../models/followModel.js";
 import cloudinaryConfig from "../services/cloudinary.js";
 import { v2 as cloudinary } from "cloudinary";
+import Notification from "../models/notification.js";
 
 //SIGNUP HELPER
 export const signupHelper = async (userData) => {
@@ -62,7 +63,7 @@ export const getUserHelper = async (userInfo) => {
 
       let userFullId = await userModel.findOne(
         { Username: userInfo },
-        { _id: 1 }
+        { _id: 1 },
       );
       console.log("userFullId here: ", userFullId);
       if (!userFullId) {
@@ -73,7 +74,10 @@ export const getUserHelper = async (userInfo) => {
       console.log("JUST id is here: ", userFullId);
     }
 
-    let userData = await userModel.findOne({ _id: userId }, { Password: 0, like: 0, saved: 0, blocked: 0});
+    let userData = await userModel.findOne(
+      { _id: userId },
+      { Password: 0, like: 0, saved: 0, blocked: 0 },
+    );
     let userFollowData = await Follow.findOne({ userId: userId });
     let userPost = await postModel.find({ userId }).exec();
 
@@ -89,7 +93,7 @@ export const followUserHelper = async (userFollower, following) => {
     const followerUser = await Follow.findOneAndUpdate(
       { userId: userFollower },
       { $addToSet: { following: following } },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
     // console.log("its in here dudee :", followerUser);
     if (!followerUser) {
@@ -98,9 +102,18 @@ export const followUserHelper = async (userFollower, following) => {
       const followingUser = await Follow.findOneAndUpdate(
         { userId: following },
         { $addToSet: { followers: userFollower } },
-        { new: true, upsert: true }
+        { new: true, upsert: true },
       );
-      return followerUser;
+
+      if (followingUser) {
+        const newNotification = new Notification({
+          sender: "userFollower",
+          receiver: "following",
+          type: "follow",
+        });
+        const savedNotification = await newNotification.save();
+        return { followerUser, savedNotification };
+      }
     }
   } catch (error) {
     console.log("error during followuserHelper :", error);
@@ -113,7 +126,7 @@ export const unFollowUserHelper = async (userFollower, following) => {
     const unFolloUser = await Follow.findOneAndUpdate(
       { userId: userFollower },
       { $pull: { following: following } },
-      { new: true }
+      { new: true },
     );
     // console.log("its hereree :", unFolloUser);
 
@@ -122,7 +135,7 @@ export const unFollowUserHelper = async (userFollower, following) => {
     } else {
       const unFollowed = await Follow.findOneAndUpdate(
         { userId: following },
-        { $pull: { followers: userFollower } }
+        { $pull: { followers: userFollower } },
       );
     }
     return unFolloUser;
@@ -136,7 +149,7 @@ export const getFollowingtHelper = async (userId) => {
   try {
     const followingData = await Follow.findOne(
       { userId: userId },
-      { _id: 0, followers: 0, userId: 0 }
+      { _id: 0, followers: 0, userId: 0 },
     );
 
     if (!followingData) {
@@ -149,7 +162,7 @@ export const getFollowingtHelper = async (userId) => {
 
       const followingUser = await userModel.find(
         { _id: { $in: followingUserData } },
-        { Username: 1, ProfilePic: 1, _id: 0 }
+        { Username: 1, ProfilePic: 1, _id: 0 },
       );
       return followingUser;
     }
@@ -252,11 +265,11 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
     if (likeState) {
       const unLikePost = await postModel.updateOne(
         { _id: postId },
-        { $pull: { like: loggedUserId } }
+        { $pull: { like: loggedUserId } },
       );
       const unLikeUserSide = await userModel.updateOne(
         { _id: loggedUserId },
-        { $pull: { like: postId } }
+        { $pull: { like: postId } },
       );
 
       return false;
@@ -264,12 +277,12 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
     } else {
       const likePost = await postModel.updateOne(
         { _id: postId },
-        { $addToSet: { like: loggedUserId } }
+        { $addToSet: { like: loggedUserId } },
       );
 
       const likeUserSide = await userModel.updateOne(
         { _id: loggedUserId },
-        { $addToSet: { like: postId } }
+        { $addToSet: { like: postId } },
       );
 
       return true;
@@ -310,7 +323,7 @@ export const commentPostHelper = async (comment, commentId) => {
         $push: {
           comment: { user: loggedUserId, text: comment, createdAt: new Date() },
         },
-      }
+      },
     );
     // return commentPosted.modifiedCount > 0; || doubt ||
     return commentPosted;
@@ -332,12 +345,12 @@ export const savePostHelper = async (loggedUserId, postId) => {
       // Post is already saved -- Unsave
       const postUnsavedUser = await postModel.updateOne(
         { _id: postId },
-        { $pull: { saved: loggedUserId } }
+        { $pull: { saved: loggedUserId } },
       );
 
       const userSavedPost = await userModel.updateOne(
         { _id: loggedUserId },
-        { $pull: { saved: postId } }
+        { $pull: { saved: postId } },
       );
       return false;
     } else {
@@ -346,11 +359,11 @@ export const savePostHelper = async (loggedUserId, postId) => {
         { _id: postId },
         {
           $addToSet: { saved: loggedUserId },
-        }
+        },
       );
       const userSavedPost = await userModel.updateOne(
         { _id: loggedUserId },
-        { $addToSet: { saved: postId } }
+        { $addToSet: { saved: postId } },
       );
       return true;
     }
@@ -393,14 +406,14 @@ export const blockUserHelper = async (loggedUserId, postUserId) => {
       // Unblock the user
       const userUnblocked = await userModel.updateOne(
         { _id: loggedUserId },
-        { $pull: { blocked: postUserId } }
+        { $pull: { blocked: postUserId } },
       );
       return false;
     } else {
       // Block the user
       const blockedUser = await userModel.updateOne(
         { _id: loggedUserId },
-        { $addToSet: { blocked: postUserId } }
+        { $addToSet: { blocked: postUserId } },
       );
       return true;
     }

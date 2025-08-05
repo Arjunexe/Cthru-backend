@@ -2,6 +2,8 @@ import { Server } from "socket.io";
 
 let io;
 
+export const userSocket = new Map();
+
 export const initSocket = (server) => {
   io = new Server(server, {
     cors: {
