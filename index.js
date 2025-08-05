@@ -9,7 +9,8 @@ import userRouter from "./src/routes/userRoutes.js";
 import messageRouter from "./src/routes/messageRouter.js";
 import adminRouter from "./src/routes/adminRouter.js";
 import cloudinaryConfig from "./src/services/cloudinary.js";
-import { Server } from "socket.io";
+// import { Server } from "socket.io";
+import { initSocket } from "./src/services/socketService.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -19,23 +20,21 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(logger("dev"));
 app.use(cors());
 
-
-const io = new Server(server, {
-  cors:{
-    origin: 'http://localhost:3000',
-    methods: ['POST','GET']
-  }
-});
+const io = initSocket(server);
+// const io = new Server(server, {
+//   cors:{
+//     origin: 'http://localhost:3000',
+//     methods: ['POST','GET']
+//   }
+// });
 
 dotenv.config();
 
-
 // socket io
-io.on('connection', (socket)=>{
-  console.log('a user connected', socket.id);
-  
-})
-
+// io.on('connection', (socket)=>{
+//   console.log('a user connected', socket.id);
+//
+// })
 
 // MONGODB CONNECT
 mongoose
