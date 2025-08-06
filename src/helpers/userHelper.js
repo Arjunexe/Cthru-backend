@@ -106,9 +106,10 @@ export const followUserHelper = async (userFollower, following) => {
       );
 
       if (followingUser) {
+        console.log("its user followIssue: ", following);
         const newNotification = new Notification({
-          sender: "userFollower",
-          receiver: "following",
+          sender: userFollower,
+          receiver: following,
           type: "follow",
         });
         const savedNotification = await newNotification.save();

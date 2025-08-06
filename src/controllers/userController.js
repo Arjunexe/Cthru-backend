@@ -20,6 +20,7 @@ import {
   fetchBlockedHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
+import { getIo, userSocket } from "../services/socketService.js";
 
 //SIGNUP
 export const signup = async (req, res) => {
@@ -83,18 +84,26 @@ export const getUser = async (req, res) => {
 export const followUser = async (req, res) => {
   try {
     const { userFollower, following } = req.body;
+    const io = getIo();
 
-    const { followUser, savedNotification } = await followUserHelper(
+    const { followerUser, savedNotification } = await followUserHelper(
       userFollower,
       following,
     );
+
     if (savedNotification) {
-      const userSocketMap = new Map();
-      userSocketMap.set(following, socket.id);
-      const socketId = userSocketMap.get(following);
-      io.to(socketId).emit("someEvent");
+      const socketId = userSocket.get(following);
+
+      console.log("socket is here: ", socketId);
+
+      if (socketId) {
+        io.to(socketId).emit("notification:new", {
+          type: "follow",
+          from: userFollower,
+        });
+      }
     }
-    res.status(200).json({ followUser });
+    res.status(200).json({ followerUser });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
