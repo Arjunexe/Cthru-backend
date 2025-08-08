@@ -20,6 +20,7 @@ import {
   fetchLikedController,
   blockUserController,
   fetchBlockedUserController,
+  fetchNotificationController,
 } from "../controllers/userController.js";
 
 const router = Router();
@@ -58,9 +59,9 @@ router.get("/getUserNameData/:urlUsername", getUserNameController);
 router.post("/deletePost", deletePost);
 
 // DELETE PROFIE PIC ONLY FROM CLOUD
-router.post("/deleteFromCloud", deleteFromCloudController)
+router.post("/deleteFromCloud", deleteFromCloudController);
 
-// LIKE OR UNLIKE POST 
+// LIKE OR UNLIKE POST
 router.post("/likePost", likePostController);
 
 // GET COMMENT LIST
@@ -70,17 +71,20 @@ router.get("/getCommentList", getCommentList);
 router.post("/commentPost", commentPostController);
 
 // SAVE A POST
-router.post("/savePost", savePost)
+router.post("/savePost", savePost);
 
 // FETCH SAVED POST
-router.post("/fetchPost", fetchSavedPostController)
+router.post("/fetchPost", fetchSavedPostController);
 
-router.post("/fetchLikedPost", fetchLikedController)
+router.post("/fetchLikedPost", fetchLikedController);
 
-// BLOCK A USER 
-router.post("/blockUser", blockUserController)
+// BLOCK A USER
+router.post("/blockUser", blockUserController);
 
 // FETCH BLOCKED LIST
-router.post("/fetchBlockedUsers", fetchBlockedUserController)
+router.post("/fetchBlockedUsers", fetchBlockedUserController);
+
+// FETCH NOTIFICATION DATA
+router.get("/getNotificationData/:userId", fetchNotificationController);
 
 export default router;

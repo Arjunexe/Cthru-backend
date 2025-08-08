@@ -18,6 +18,7 @@ import {
   fetchLikedHelper,
   blockUserHelper,
   fetchBlockedHelper,
+  fetchNotificationHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 import { getIo, userSocket } from "../services/socketService.js";
@@ -352,5 +353,16 @@ export const fetchBlockedUserController = async (req, res) => {
     return res.status(200).json({ blockedList });
   } catch (error) {
     console.log("error during fetchBlockedUserController: ", error);
+  }
+};
+
+// FETCH NOTIFICATION DATA
+export const fetchNotificationController = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const notificationData = await fetchNotificationHelper(userId);
+    return res.status(200).json({ notificationData });
+  } catch (error) {
+    console.log("error during fetchNotificationController: ", error);
   }
 };

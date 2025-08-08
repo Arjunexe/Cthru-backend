@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import Follow from "../models/followModel.js";
 import cloudinaryConfig from "../services/cloudinary.js";
 import { v2 as cloudinary } from "cloudinary";
-import Notification from "../models/notification.js";
+import notificationModel from "../models/notification.js";
 
 //SIGNUP HELPER
 export const signupHelper = async (userData) => {
@@ -107,7 +107,7 @@ export const followUserHelper = async (userFollower, following) => {
 
       if (followingUser) {
         console.log("its user followIssue: ", following);
-        const newNotification = new Notification({
+        const newNotification = new notificationModel({
           sender: userFollower,
           receiver: following,
           type: "follow",
@@ -434,6 +434,19 @@ export const fetchBlockedHelper = async (loggedUserId) => {
     return blockedList;
   } catch (error) {
     console.log("error during fetchBlockedHelper: ", error);
+    throw error;
+  }
+};
+
+// FETCH NOTIFICATION DATA
+export const fetchNotificationHelper = async (userId) => {
+  try {
+    const notificationData = await notificationModel.find({ receiver: userId });
+    if (notificationData) {
+      return notificationData;
+    }
+  } catch (error) {
+    console.log("error during fetchNotificationHelper: ", error);
     throw error;
   }
 };
