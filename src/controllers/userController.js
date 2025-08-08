@@ -95,8 +95,6 @@ export const followUser = async (req, res) => {
     if (savedNotification) {
       const socketId = userSocket.get(following);
 
-      console.log("socket is here: ", socketId);
-
       if (socketId) {
         io.to(socketId).emit("notification:new", {
           type: "follow",
@@ -222,19 +220,29 @@ export const getUserNameController = async (req, res) => {
 export const likePostController = async (req, res) => {
   try {
     const { loggedUserId, postId, likeState } = req.body;
-    const postLiked = await likePostHelper(loggedUserId, postId, likeState);
+    const io = getIo();
+    const { liked, notification, receiver } = await likePostHelper(
+      loggedUserId,
+      postId,
+      likeState,
+    );
 
-    if (postLiked) {
-      res.status(200).json({
-        success: true,
-        liked: true,
-      });
-    } else {
-      res.status(200).json({
-        success: true,
-        liked: false,
-      });
+    if (notification) {
+      const socketId = userSocket.get(receiver);
+      console.log("socket is here like: ", socketId);
+
+      if (socketId) {
+        io.to(socketId).emit("notification:new", {
+          type: "like",
+          from: loggedUserId,
+        });
+      }
     }
+
+    res.status(200).json({
+      success: true,
+      liked,
+    });
   } catch (error) {
     console.log("error during likePostController :", error);
   }

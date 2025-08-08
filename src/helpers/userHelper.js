@@ -98,6 +98,7 @@ export const followUserHelper = async (userFollower, following) => {
     // console.log("its in here dudee :", followerUser);
     if (!followerUser) {
       console.log("somethings wrong");
+      return null;
     } else {
       const followingUser = await Follow.findOneAndUpdate(
         { userId: following },
@@ -105,16 +106,18 @@ export const followUserHelper = async (userFollower, following) => {
         { new: true, upsert: true },
       );
 
-      if (followingUser) {
-        console.log("its user followIssue: ", following);
-        const newNotification = new notificationModel({
-          sender: userFollower,
-          receiver: following,
-          type: "follow",
-        });
-        const savedNotification = await newNotification.save();
-        return { followerUser, savedNotification };
+      if (!followingUser) {
+        return { followerUser };
       }
+
+      // NOTIFICATION CREATE AND SAVE
+      const newNotification = new notificationModel({
+        sender: userFollower,
+        receiver: following,
+        type: "follow",
+      });
+      const savedNotification = await newNotification.save();
+      return { followerUser, savedNotification };
     }
   } catch (error) {
     console.log("error during followuserHelper :", error);
@@ -273,7 +276,7 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
         { $pull: { like: postId } },
       );
 
-      return false;
+      return { liked: false, notification: null, receiver: null };
       // LIKE A POST
     } else {
       const likePost = await postModel.updateOne(
@@ -286,10 +289,27 @@ export const likePostHelper = async (loggedUserId, postId, likeState) => {
         { $addToSet: { like: postId } },
       );
 
-      return true;
+      const receiverId = await postModel.findById(postId).select("userId");
+      if (receiverId?.userId.toString() !== loggedUserId.toString()) {
+        const newNotification = new notificationModel({
+          sender: loggedUserId,
+          receiver: receiverId.userId,
+          type: "like",
+        });
+        const savedNotification = await newNotification.save();
+        console.log("is not appearedddddddddd: ", receiverId.userId.toString());
+        return {
+          liked: true,
+          notification: savedNotification,
+          receiver: receiverId.userId.toString(),
+        };
+      }
+
+      return { liked: true, notification: null, receiver: null };
     }
   } catch (error) {
     console.log("error during likePostHelper :", error);
+    throw error;
   }
 };
 
@@ -441,8 +461,11 @@ export const fetchBlockedHelper = async (loggedUserId) => {
 // FETCH NOTIFICATION DATA
 export const fetchNotificationHelper = async (userId) => {
   try {
-    const notificationData = await notificationModel.find({ receiver: userId });
+    const notificationData = await notificationModel
+      .find({ receiver: userId })
+      .populate("sender", "Username ProfilePic");
     if (notificationData) {
+      console.log("popluate is here: ", notificationData);
       return notificationData;
     }
   } catch (error) {
