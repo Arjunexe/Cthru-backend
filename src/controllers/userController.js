@@ -271,11 +271,25 @@ export const getCommentList = async (req, res) => {
 export const commentPostController = async (req, res) => {
   try {
     const { comment, commentId } = req.body;
-    const postCommented = await commentPostHelper(comment, commentId);
-    if (!postCommented) {
+    const io = getIo();
+    const { commentPosted, savedNotification, receiver, loggedUserId } =
+      await commentPostHelper(comment, commentId);
+    if (!commentPosted) {
       return res.status(400).json({ message: "Failed to post comment" });
     }
-    res.status(201).json({ message: "Comment posted", comment: postCommented });
+
+    if (savedNotification) {
+      const socketId = userSocket.get(receiver);
+
+      if (socketId) {
+        io.to(socketId).emit("notification:new", {
+          type: "comment",
+          from: loggedUserId,
+        });
+      }
+    }
+
+    res.status(201).json({ message: "Comment posted", comment: commentPosted });
   } catch (error) {
     console.log("error during commentPostController: ", error);
   }

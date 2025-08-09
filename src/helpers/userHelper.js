@@ -346,8 +346,30 @@ export const commentPostHelper = async (comment, commentId) => {
         },
       },
     );
+
+    const receiverId = await postModel.findById(postId).select("userId");
+    if (receiverId?.userId.toString() !== loggedUserId.toString()) {
+      const newNotification = new notificationModel({
+        sender: loggedUserId,
+        receiver: receiverId.userId.toString(),
+        type: "comment",
+      });
+      const savedNotification = await newNotification.save();
+      return {
+        commentPosted,
+        savedNotification,
+        receiver: receiverId.userId.toString(),
+        loggedUserId,
+      };
+    }
+
     // return commentPosted.modifiedCount > 0; || doubt ||
-    return commentPosted;
+    return {
+      commentPosted,
+      savedNotification: null,
+      receiver: null,
+      loggedUserId: null,
+    };
   } catch (error) {
     console.log("error during commentPostHelper: ", error);
     throw error;
