@@ -495,3 +495,19 @@ export const fetchNotificationHelper = async (userId) => {
     throw error;
   }
 };
+
+// CHANGE NOTIFICATION FLAG HELPER
+export const changeFlagHelper = async (userID, flag) => {
+  try {
+    const flagChanged = await userModel.findByIdAndUpdate(
+      userID,
+      { notificatoinFlag: flag },
+      { new: true },
+    );
+
+    return flagChanged;
+  } catch (error) {
+    console.log("error during changeFlagHelper: ", error);
+    throw error;
+  }
+};

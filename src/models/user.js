@@ -55,7 +55,13 @@ const userSchema = new Schema({
         ref: "User",
       },
     ],
-    default:[],
+    default: [],
+  },
+
+  notificatoinFlag: {
+    type: Boolean,
+    require: true,
+    default: false,
   },
 });
 userSchema.pre("save", async function () {

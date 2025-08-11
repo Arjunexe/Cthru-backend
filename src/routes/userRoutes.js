@@ -21,6 +21,7 @@ import {
   blockUserController,
   fetchBlockedUserController,
   fetchNotificationController,
+  changeFlagController,
 } from "../controllers/userController.js";
 
 const router = Router();
@@ -86,5 +87,8 @@ router.post("/fetchBlockedUsers", fetchBlockedUserController);
 
 // FETCH NOTIFICATION DATA
 router.get("/getNotificationData/:userId", fetchNotificationController);
+
+// CHANGE NOTIFICATION FLAG
+router.patch("/changeFlag", changeFlagController);
 
 export default router;

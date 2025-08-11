@@ -19,6 +19,7 @@ import {
   blockUserHelper,
   fetchBlockedHelper,
   fetchNotificationHelper,
+  changeFlagHelper,
 } from "../helpers/userHelper.js";
 import jwt from "jsonwebtoken";
 import { getIo, userSocket } from "../services/socketService.js";
@@ -386,5 +387,16 @@ export const fetchNotificationController = async (req, res) => {
     return res.status(200).json({ notificationData });
   } catch (error) {
     console.log("error during fetchNotificationController: ", error);
+  }
+};
+
+// CHANGE NOTIFICATION FLAG CONTROLLER
+export const changeFlagController = async (req, res) => {
+  try {
+    const { userID, flag } = req.body;
+    const flagChanged = await changeFlagHelper(userID, flag);
+    console.log("this is the one brother: ", flagChanged);
+  } catch (error) {
+    console.log("error during changeFlagController: ", error);
   }
 };

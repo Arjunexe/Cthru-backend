@@ -24,12 +24,12 @@ const notificationSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Post",
     },
-
-    isRead: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
+    //
+    // notificationFlag: {
+    //   type: Boolean,
+    //   required: true,
+    //   default: false,
+    // },
   },
   { timestamps: true },
 );
@@ -38,4 +38,3 @@ const Notification =
   mongoose.models.Notification ||
   mongoose.model("Notification", notificationSchema);
 export default Notification;
-
