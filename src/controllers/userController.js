@@ -395,7 +395,10 @@ export const changeFlagController = async (req, res) => {
   try {
     const { userID, flag } = req.body;
     const flagChanged = await changeFlagHelper(userID, flag);
-    console.log("this is the one brother: ", flagChanged);
+    console.log("set bro: ", flagChanged);
+    return res
+      .status(200)
+      .json({ notificationFlag: flagChanged.notificatoinFlag });
   } catch (error) {
     console.log("error during changeFlagController: ", error);
   }

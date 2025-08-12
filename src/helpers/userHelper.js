@@ -487,7 +487,7 @@ export const fetchNotificationHelper = async (userId) => {
       .find({ receiver: userId })
       .populate("sender", "Username ProfilePic");
     if (notificationData) {
-      console.log("popluate is here: ", notificationData);
+      //console.log("popluate is here: ", notificationData);
       return notificationData;
     }
   } catch (error) {
@@ -504,6 +504,8 @@ export const changeFlagHelper = async (userID, flag) => {
       { notificatoinFlag: flag },
       { new: true },
     );
+
+    console.log("the truth: ", flagChanged);
 
     return flagChanged;
   } catch (error) {
