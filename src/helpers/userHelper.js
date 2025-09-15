@@ -250,6 +250,7 @@ export const deletePostHelper = async (publicId, postImg) => {
 // DELETE PROFILE PIC FROM ONLY CLOUD
 export const deleteFromCloudHelper = async (publicId) => {
   try {
+    console.log("publicId: ", publicId);
     const deleteFromCloud = await cloudinary.uploader.destroy(publicId);
     if (deleteFromCloud.result !== "ok") {
       console.log("Post from Cloud not deleted");
@@ -485,7 +486,8 @@ export const fetchNotificationHelper = async (userId) => {
   try {
     const notificationData = await notificationModel
       .find({ receiver: userId })
-      .populate("sender", "Username ProfilePic");
+      .populate("sender", "Username ProfilePic")
+      .sort({ createdAt: -1 });
     if (notificationData) {
       //console.log("popluate is here: ", notificationData);
       return notificationData;
