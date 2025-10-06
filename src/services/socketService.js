@@ -7,7 +7,7 @@ export const userSocket = new Map();
 export const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: ["https://cthru-frontend.vercel.app", "http://localhost:3000"],
       methods: ["POST", "GET"],
     },
   });
