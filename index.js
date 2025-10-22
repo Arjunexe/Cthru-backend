@@ -1,7 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express, { application } from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import logger from "morgan";
 import http from "http";
 import cors from "cors";
@@ -15,6 +16,9 @@ import { initSocket } from "./src/services/socketService.js";
 const app = express();
 const server = http.createServer(app);
 
+// Cloudinary configuration
+cloudinaryConfig();
+
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(logger("dev"));
@@ -27,8 +31,6 @@ const io = initSocket(server);
 //     methods: ['POST','GET']
 //   }
 // });
-
-dotenv.config();
 
 // socket io
 // io.on('connection', (socket)=>{
@@ -50,9 +52,6 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
-// Cloudinary configuration
-cloudinaryConfig();
 
 //RouterSs
 app.use("/user", userRouter);

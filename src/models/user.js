@@ -22,7 +22,7 @@ const userSchema = new Schema({
   ProfilePic: {
     type: String,
     default:
-      "https://res.cloudinary.com/da05006gl/image/upload/v1734407310/ywkv9vho9dn3l7lehsyo.png",
+      "https://res.cloudinary.com/da05006gl/image/upload/v1759860907/nu3mfyiy4vcli7vberbu.jpg",
   },
 
   Password: {
