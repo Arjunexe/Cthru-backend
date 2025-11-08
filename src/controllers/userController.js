@@ -39,6 +39,15 @@ export const signup = async (req, res) => {
     });
     res.status(200).json({ token });
   } catch (error) {
+    if (error.code === 11000) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          errorCode: "DUPLICATE_EMAIL",
+          message: "Email already exist",
+        });
+    }
     console.error("Error during signup:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -192,7 +201,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
-// DELTE PROFILE PIC ONY FROM CLOUD
+// DELTE PROFILE PIC ONLY FROM CLOUD
 export const deleteFromCloudController = async (req, res) => {
   try {
     const { publicId } = req.body;
