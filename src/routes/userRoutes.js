@@ -23,6 +23,7 @@ import {
   fetchNotificationController,
   changeFlagController,
 } from "../controllers/userController.js";
+import { sendOtp } from "../controllers/otpController.js";
 
 const router = Router();
 
@@ -90,5 +91,8 @@ router.get("/getNotificationData/:userId", fetchNotificationController);
 
 // CHANGE NOTIFICATION FLAG
 router.patch("/changeFlag", changeFlagController);
+
+// RECEIVE EMAIL AND SEND OTP
+router.post("/otpEmail", sendOtp);
 
 export default router;
