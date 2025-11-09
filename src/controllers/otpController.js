@@ -1,9 +1,9 @@
 import nodemailer from "nodemailer";
+import Otp from "../models/otpModel.js";
 
 export const sendOtp = async (req, res) => {
   try {
     const { EmailOrMobile } = req.body;
-    console.log("this is the person:", EmailOrMobile);
     const otp = Math.floor(100000 + Math.random() * 900000);
     // Create transporter
     const transporter = nodemailer.createTransport({
@@ -23,6 +23,11 @@ export const sendOtp = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
+
+    await Otp.create({
+      emailOrPhone: EmailOrMobile,
+      otp: otp,
+    });
 
     res.json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
