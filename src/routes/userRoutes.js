@@ -23,7 +23,7 @@ import {
   fetchNotificationController,
   changeFlagController,
 } from "../controllers/userController.js";
-import { sendOtp } from "../controllers/otpController.js";
+import { otpVerify, sendOtp } from "../controllers/otpController.js";
 
 const router = Router();
 
@@ -94,5 +94,8 @@ router.patch("/changeFlag", changeFlagController);
 
 // RECEIVE EMAIL AND SEND OTP
 router.post("/otpEmail", sendOtp);
+
+// VERIFY OTP
+router.post("/otpVerify", otpVerify);
 
 export default router;
