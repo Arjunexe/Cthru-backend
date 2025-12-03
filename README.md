@@ -4,23 +4,26 @@ A backend for a social media platform similar to Instagram, built using the **ME
 
 ---
 
-## 🚀 Live Demo  
+## 🚀 Live Demo
+
 Frontend Live URL: **https://cthru-frontend.vercel.app/**
 
-## 📦 GitHub Repository  
+## 📦 GitHub Repository
+
 Backend Repo: **https://github.com/Arjunexe/Cthru-backend.git**
 
 ---
 
-## 🛠️ Tech Stack  
-- **MongoDB** – Database  
-- **Express.js** – Backend framework  
-- **React.js** – Frontend  
-- **Node.js** – Server  
-- **Tailwind CSS** – Styling (frontend)  
-- **Cloudinary** – Image storage  
-- **JWT** – Authentication  
-- **Socket.io** – Real‑time messaging  
+## 🛠️ Tech Stack
+
+- **MongoDB** – Database
+- **Express.js** – Backend framework
+- **React.js** – Frontend
+- **Node.js** – Server
+- **Tailwind CSS** – Styling (frontend)
+- **Cloudinary** – Image storage
+- **JWT** – Authentication
+- **Socket.io** – Real‑time notification
 
 ---
 
@@ -35,7 +38,8 @@ This uses **nodemon** under the hood for auto‑restarts.
 
 ---
 
-## 📁 Environment Variables  
+## 📁 Environment Variables
+
 Create a `.env` file in the project root:
 
 ```
@@ -66,22 +70,25 @@ RESEND_API=your_resend_api_key
 
 ---
 
-## ✨ Features  
-- User authentication (JWT)  
-- Secure password hashing (bcrypt)  
-- Cloudinary image upload  
-- Real‑time chat using Socket.io  
-- Modular controllers and routes  
-- MongoDB models with Mongoose  
-- Email OTP support  
-- CORS configured Express server  
+## ✨ Features
+
+- User authentication (JWT)
+- Secure password hashing (bcrypt)
+- Cloudinary image upload
+- Real‑time chat using Socket.io
+- Modular controllers and routes
+- MongoDB models with Mongoose
+- Email OTP support
+- CORS configured Express server
 
 ---
 
-## 👨‍💻 Author  
+## 👨‍💻 Author
+
 **Arjun vm**
 
 ---
 
-## 📄 License  
+## 📄 License
+
 ISC License
