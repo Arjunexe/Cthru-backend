@@ -42,6 +42,9 @@ router.post("/imgUrl", imgUrl);
 // POST IMAGE RETRIEVAL
 router.get("/getUrl", getImgUrl);
 
+// FETCH IMAGES FOR HOME PAGE BASED OF THE FOLLOWING LIST
+// router.get("/getHomePostData/:userId", getHomePostData);
+
 // SAVE PROFILE PICTURE
 router.post("/profileImgUrl", profileImgUrl);
 

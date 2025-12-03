@@ -87,6 +87,22 @@ export const getUserHelper = async (userInfo) => {
   }
 };
 
+// FETCH IMAGES FOR HOME PAGE BASED OF THE FOLLOWING LIST HELPER
+// export const getHomePostDataHelper = async (userId) => {
+//   try {
+//     const followingDoc = await Follow.findOne({ userId: userId });
+//     if (!followingDoc || followingDoc.following.length === 0) {
+//       return [];
+//     }
+//     const
+//
+//
+//
+//   } catch (error) {
+//     console.log("error during getHomePostHelper :", error);
+//   }
+// };
+
 // FOLLOW USER
 export const followUserHelper = async (userFollower, following) => {
   try {

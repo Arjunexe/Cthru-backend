@@ -40,13 +40,11 @@ export const signup = async (req, res) => {
     res.status(200).json({ token });
   } catch (error) {
     if (error.code === 11000) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          errorCode: "DUPLICATE_EMAIL",
-          message: "Email already exist",
-        });
+      return res.status(400).json({
+        success: false,
+        errorCode: "DUPLICATE_EMAIL",
+        message: "Email already exist",
+      });
     }
     console.error("Error during signup:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -171,6 +169,16 @@ export const getImgUrl = async (req, res) => {
     console.log("error during getImgUrl :", error);
   }
 };
+
+// FETCH IMAGES FOR HOME PAGE BASED OF THE FOLLOWING LIST CONTROLLER
+// export const getHomePostData = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     let response = await getHomePostDataHelper(userId);
+//   } catch (error) {
+//     console.log("error during getHomePostData :", error);
+//   }
+// };
 
 // SAVE PROFILE IMAGE
 export const profileImgUrl = async (req, res) => {
